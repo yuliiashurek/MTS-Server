@@ -2,77 +2,113 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:properties="clr-namespace:Client.Properties"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Client.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:SuppliersViewModel}"
              Height="Auto" Width="Auto">
 
-    <DockPanel>
+    <UserControl.DataContext>
+        <vm:SuppliersViewModel />
+    </UserControl.DataContext>
 
-        <!-- Верхній блок: додати + фільтри -->
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <!-- кнопка + інпути -->
-                <RowDefinition Height="Auto"/>
-                <!-- фільтри -->
-                <RowDefinition Height="*"/>
-                <!-- таблиця -->
-            </Grid.RowDefinitions>
+    <DockPanel Margin="20">
 
+        <!-- Верхня панель з кнопкою -->
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Кнопка Додати -->
             <Button Content="{x:Static properties:Resources.PlusAdd}"
-                    Grid.Row="0" Grid.Column="0"
-                    Width="100"
-                    Margin="0,0,5,5"
-                    HorizontalAlignment="Left"
-                    Click="AddNew_Click"/>
+                    Width="120" Height="32"
+                    HorizontalAlignment="Right"
+                    Command="{Binding AddSupplierCommand}"
+                    Grid.Column="1"/>
+        </Grid>
+
+        <!-- Основна таблиця з фільтрами -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
             <!-- Фільтри -->
-            <TextBox x:Name="NameFilterBox" Grid.Row="1" Grid.Column="0" Margin="2" Height="28" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="ContactFilterBox" Grid.Row="1" Grid.Column="1" Margin="2" Height="28" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="PhoneFilterBox" Grid.Row="1" Grid.Column="2" Margin="2" Height="28" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="EmailFilterBox" Grid.Row="1" Grid.Column="3" Margin="2" Height="28" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="AddressFilterBox" Grid.Row="1" Grid.Column="4" Margin="2" Height="28" VerticalContentAlignment="Center"/>
-            <Button Content="🔍" Grid.Row="1" Grid.Column="5" Margin="2" Height="28" ToolTip="{x:Static properties:Resources.SuppliersControlApplyFilter}" Click="ApplyFilters_Click"/>
-            <Button Content="♻️" Grid.Row="1" Grid.Column="6" Margin="2" Height="28" ToolTip="{x:Static properties:Resources.SuppliersControlClearFilter}" Click="ClearFilters_Click"/>
-            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding NameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Grid.Column="1" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding ContactFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Grid.Column="2" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding PhoneFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Grid.Column="3" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding EmailFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Grid.Column="4" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding AddressFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button Grid.Column="5" Margin="2" Height="28" Content="🔍"
+                        ToolTip="{x:Static properties:Resources.SuppliersControlApplyFilter}"
+                        Command="{Binding ApplyFiltersCommand}"/>
+
+                <Button Grid.Column="6" Margin="2" Height="28" Content="♻️"
+                        ToolTip="{x:Static properties:Resources.SuppliersControlClearFilter}"
+                        Command="{Binding ClearFiltersCommand}"/>
+            </Grid>
 
             <!-- Таблиця -->
-            <DataGrid x:Name="SuppliersGrid"
-                      Grid.Row="2"
-                      Grid.ColumnSpan="7"
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding Suppliers}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       IsReadOnly="True"
                       HeadersVisibility="Column"
-                      Margin="0,10,0,0"
                       HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch">
+                      VerticalAlignment="Stretch"
+                      MinHeight="300"
+                      Margin="0"
+                      RowHeight="40"
+                      ColumnHeaderHeight="35"
+                      FontSize="14">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormNameLabel}" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormContactPersonLabel}" Binding="{Binding ContactPerson}" Width="*" />
-                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormPhoneNumberLabel}" Binding="{Binding Phone}" Width="*" />
-                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormEmailLabel}" Binding="{Binding Email}" Width="*" />
-                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormAddressLabel}" Binding="{Binding Address}" Width="*" />
-                    <DataGridTemplateColumn Header="{x:Static properties:Resources.EditButton}" Width="50">
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormNameLabel}" Binding="{Binding Name}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormContactPersonLabel}" Binding="{Binding ContactPerson}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormPhoneNumberLabel}" Binding="{Binding Phone}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormEmailLabel}" Binding="{Binding Email}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormAddressLabel}" Binding="{Binding Address}" Width="2*" />
+
+                    <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="✏️" Click="Edit_Click" Padding="2"/>
+                                <Button Content="✏️" Padding="4" Margin="2"
+                                        Command="{Binding DataContext.EditSupplierCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{x:Static properties:Resources.DeleteButton}" Width="50">
+
+                    <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="❌" Click="Delete_Click" Padding="2"/>
+                                <Button Content="❌" Padding="4" Margin="2"
+                                        Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

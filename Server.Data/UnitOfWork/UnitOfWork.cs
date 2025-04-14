@@ -21,11 +21,9 @@ namespace Server.Data.UnitOfWork
 
         public IRepository<Supplier> Suppliers => _supplierRepository ??= new SupplierRepository(_context);
 
-        public async Task<int> SaveChangesAsync()
-            => await _context.SaveChangesAsync();
+        public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 
-        public void Dispose()
-            => _context.Dispose();
+        public void Dispose() => _context.Dispose();
     }
 
 }

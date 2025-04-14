@@ -7,7 +7,7 @@ namespace Client.Views
     {
         public Supplier Supplier { get; private set; }
 
-        public SupplierForm(Supplier supplier = null)
+        public SupplierForm(Supplier? supplier = null)
         {
             InitializeComponent();
 
