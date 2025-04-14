@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Core.Interfaces;
 using Server.Data.Entities;
+using Server.Shared.DTOs;
+using AutoMapper;
 
 namespace Server.API.Controllers
 {
@@ -9,27 +11,35 @@ namespace Server.API.Controllers
     public class SuppliersController : ControllerBase
     {
         private readonly ISupplierService _supplierService;
+        private readonly IMapper _mapper;
 
-        public SuppliersController(ISupplierService supplierService)
+        public SuppliersController(ISupplierService supplierService, IMapper mapper)
         {
             _supplierService = supplierService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Ok(await _supplierService.GetAllAsync());
+        public async Task<IActionResult> Get()
+        {
+            var suppliers = await _supplierService.GetAllAsync();
+            var dtoList = _mapper.Map<List<SupplierDto>>(suppliers);
+            return Ok(dtoList);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Supplier supplier)
+        public async Task<IActionResult> Post([FromBody] SupplierDto dto)
         {
-            await _supplierService.AddAsync(supplier);
+            await _supplierService.AddAsync(dto);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Supplier supplier)
+        public async Task<IActionResult> Put(int id, [FromBody] SupplierDto dto)
         {
-            if (id != supplier.Id) return BadRequest();
-            await _supplierService.UpdateAsync(supplier);
+            if (id != dto.Id) 
+                return BadRequest();
+            await _supplierService.UpdateAsync(dto);
             return NoContent();
         }
 
@@ -40,5 +50,4 @@ namespace Server.API.Controllers
             return NoContent();
         }
     }
-
 }

@@ -1,19 +1,13 @@
-﻿using Server.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Server.Shared.DTOs;
 
 namespace Server.Core.Interfaces
 {
     public interface ISupplierService
     {
-        Task<List<Supplier>> GetAllAsync();
-        Task<Supplier> GetByIdAsync(int id);
-        Task AddAsync(Supplier supplier);
-        Task UpdateAsync(Supplier supplier);
+        Task<List<SupplierDto>> GetAllAsync();
+        Task<SupplierDto?> GetByIdAsync(int id);
+        Task AddAsync(SupplierDto supplierDto);
+        Task UpdateAsync(SupplierDto supplierDto);
         Task DeleteAsync(int id);
     }
-
 }

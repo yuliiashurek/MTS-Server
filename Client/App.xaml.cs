@@ -1,4 +1,6 @@
-﻿using Client.Localization;
+﻿using AutoMapper;
+using Client.Localization;
+using Client.Mappings;
 using Client.Views;
 using System.Windows;
 
@@ -15,11 +17,19 @@ namespace Client
             mainView.Show();                     
         }
 
+        public static IMapper Mapper { get; private set; }
         public App()
         {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            Mapper = config.CreateMapper();
+
             this.DispatcherUnhandledException += (s, e) =>
             {
-                MessageBox.Show($"ПОМИЛКАААААААА: {e.Exception.Message}", "ПОМИЛКАААААААА", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"ПОМИЛКАААААА {e.Exception.Message}", "ПОМИЛКАААААА", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             };
         }

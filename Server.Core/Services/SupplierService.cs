@@ -1,40 +1,51 @@
-﻿// SupplierService.cs
+﻿using AutoMapper;
 using Server.Core.Interfaces;
 using Server.Data.Entities;
 using Server.Data.UnitOfWork;
+using Server.Shared.DTOs;
 
 namespace Server.Core.Services
 {
     public class SupplierService : ISupplierService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public SupplierService(IUnitOfWork unitOfWork)
+        public SupplierService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<List<Supplier>> GetAllAsync()
+        public async Task<List<SupplierDto>> GetAllAsync()
         {
-            return await _unitOfWork.Suppliers.GetAllAsync();
+            var suppliers = await _unitOfWork.Suppliers.GetAllAsync();
+            return _mapper.Map<List<SupplierDto>>(suppliers);
         }
 
-        public async Task<Supplier?> GetByIdAsync(int id)
+        public async Task<SupplierDto?> GetByIdAsync(int id)
         {
-            return await _unitOfWork.Suppliers.GetByIdAsync(id);
+            var supplier = await _unitOfWork.Suppliers.GetByIdAsync(id);
+            return supplier is null ? null : _mapper.Map<SupplierDto>(supplier);
         }
 
-        public async Task AddAsync(Supplier supplier)
+        public async Task AddAsync(SupplierDto supplierDto)
         {
+            var supplier = _mapper.Map<Supplier>(supplierDto);
             await _unitOfWork.Suppliers.AddAsync(supplier);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Supplier supplier)
+        public async Task UpdateAsync(SupplierDto supplierDto)
         {
-            _unitOfWork.Suppliers.Update(supplier);
+            var existing = await _unitOfWork.Suppliers.GetByIdAsync(supplierDto.Id);
+            if (existing is null) return;
+
+            _mapper.Map(supplierDto, existing);
+            _unitOfWork.Suppliers.Update(existing);
             await _unitOfWork.SaveChangesAsync();
         }
+
 
         public async Task DeleteAsync(int id)
         {
