@@ -23,7 +23,7 @@ namespace Server.Core.Services
             return _mapper.Map<List<SupplierDto>>(suppliers);
         }
 
-        public async Task<SupplierDto?> GetByIdAsync(int id)
+        public async Task<SupplierDto?> GetByIdAsync(Guid id)
         {
             var supplier = await _unitOfWork.Suppliers.GetByIdAsync(id);
             return supplier is null ? null : _mapper.Map<SupplierDto>(supplier);
@@ -47,7 +47,7 @@ namespace Server.Core.Services
         }
 
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             var existing = await _unitOfWork.Suppliers.GetByIdAsync(id);
             if (existing is null) return;

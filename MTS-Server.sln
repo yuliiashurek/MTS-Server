@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Data", "Server.Data\Server.Data.csproj", "{5A018F37-6FC5-408A-923C-426671CF44A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Data", "Server.Data\Server.Data.csproj", "{5A018F37-6FC5-408A-923C-426671CF44A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Core", "Server.Core\Server.Core.csproj", "{67F41FCE-ED2A-4699-A077-AE4CD50F09F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Core", "Server.Core\Server.Core.csproj", "{67F41FCE-ED2A-4699-A077-AE4CD50F09F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Shared", "Server.Shared\Server.Shared.csproj", "{6E8D9192-8FFC-4162-896F-EA07F26EEBEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Shared", "Server.Shared\Server.Shared.csproj", "{6E8D9192-8FFC-4162-896F-EA07F26EEBEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.API", "Server.API\Server.API.csproj", "{DE42DB75-CBA6-4739-B4AC-9AA94D4BC67A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.API", "Server.API\Server.API.csproj", "{DE42DB75-CBA6-4739-B4AC-9AA94D4BC67A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{C1B0FC27-96AC-439A-B2AD-50E269360C7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{C1B0FC27-96AC-439A-B2AD-50E269360C7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordReset.Web", "PasswordReset.Web\PasswordReset.Web.csproj", "{73D1B839-612C-4EA2-A0E3-2E606F35B485}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{C1B0FC27-96AC-439A-B2AD-50E269360C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1B0FC27-96AC-439A-B2AD-50E269360C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1B0FC27-96AC-439A-B2AD-50E269360C7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D1B839-612C-4EA2-A0E3-2E606F35B485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D1B839-612C-4EA2-A0E3-2E606F35B485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D1B839-612C-4EA2-A0E3-2E606F35B485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D1B839-612C-4EA2-A0E3-2E606F35B485}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

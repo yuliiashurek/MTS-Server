@@ -3,9 +3,11 @@ using Server.Core.Interfaces;
 using Server.Data.Entities;
 using Server.Shared.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SuppliersController : ControllerBase
@@ -35,7 +37,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] SupplierDto dto)
+        public async Task<IActionResult> Put(Guid id, [FromBody] SupplierDto dto)
         {
             if (id != dto.Id) 
                 return BadRequest();
@@ -44,7 +46,7 @@ namespace Server.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _supplierService.DeleteAsync(id);
             return NoContent();

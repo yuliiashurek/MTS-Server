@@ -5,45 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
+using Server.Data.Db;
 
 namespace Server.Data.Repositories
 {
-
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly DbContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly AppDbContext _context;
 
-        public Repository(DbContext context)
+        public Repository(AppDbContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
+        public async Task<IEnumerable<T>> GetAllAsync()
+            => await _context.Set<T>().ToListAsync();
 
-        public async Task<List<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
-        }
+        public async Task<T?> GetByIdAsync(Guid id)
+            => await _context.Set<T>().FindAsync(id);
 
         public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
-
-        public void Update(T entity)
-        {
-            _dbSet.Update(entity);
-        }
+            => await _context.Set<T>().AddAsync(entity);
 
         public void Remove(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
+            => _context.Set<T>().Remove(entity);
+
+        public void Update(T entity)
+            => _context.Set<T>().Update(entity);
     }
+
 
 }

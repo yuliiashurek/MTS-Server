@@ -18,10 +18,10 @@ namespace Server.Data.Repositories
             _context = context;
         }
 
-        public async Task<Supplier?> GetByIdAsync(int id)
+        public async Task<Supplier?> GetByIdAsync(Guid id)
             => await _context.Suppliers.FindAsync(id);
 
-        public async Task<List<Supplier>> GetAllAsync()
+        public async Task<IEnumerable<Supplier>> GetAllAsync()
             => await _context.Suppliers.ToListAsync();
 
         public async Task AddAsync(Supplier entity)
