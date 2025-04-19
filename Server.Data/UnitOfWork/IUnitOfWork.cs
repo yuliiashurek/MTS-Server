@@ -11,6 +11,9 @@ namespace Server.Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<Supplier> Suppliers { get; }
+        IUserRepository Users { get; }
+        IOrganizationRepository Organizations { get; }
+
         Task<int> SaveChangesAsync();
 
     }

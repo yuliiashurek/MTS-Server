@@ -8,11 +8,12 @@ namespace Server.Data.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<T?> GetByIdAsync(int id);
-        Task<List<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T?> GetByIdAsync(Guid id);
         Task AddAsync(T entity);
-        void Update(T entity);
         void Remove(T entity);
+        void Update(T entity);
     }
+
 
 }

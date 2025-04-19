@@ -17,9 +17,14 @@ namespace Server.Data.UnitOfWork
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
+            Users = new UserRepository(context);
+            Organizations = new OrganizationRepository(context);
         }
 
         public IRepository<Supplier> Suppliers => _supplierRepository ??= new SupplierRepository(_context);
+        public IUserRepository Users { get; }
+
+        public IOrganizationRepository Organizations { get; }
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 
