@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Client.MeasurementUnitsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Client"
+             Height="Auto" Width="Auto">
+    <UserControl.DataContext>
+        <vm:MeasurementUnitsViewModel />
+    </UserControl.DataContext>
+
+    <DockPanel Margin="20">
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Додати" Width="120" Height="32" Command="{Binding AddUnitCommand}" Grid.Column="1"/>
+        </Grid>
+
+        <DataGrid ItemsSource="{Binding Units}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  RowHeight="40"
+                  ColumnHeaderHeight="35"
+                  FontSize="14">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Повна назва" Binding="{Binding FullName}" Width="2*" />
+                <DataGridTextColumn Header="Скорочена назва" Binding="{Binding ShortName}" Width="1.5*" />
+
+                <DataGridTemplateColumn Header=" " Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="✏️" Padding="4" Margin="2"
+                                    Command="{Binding DataContext.EditUnitCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header=" " Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="❌" Padding="4" Margin="2"
+                                    Command="{Binding DataContext.DeleteUnitCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

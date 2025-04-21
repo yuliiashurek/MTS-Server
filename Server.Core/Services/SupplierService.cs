@@ -10,16 +10,19 @@ namespace Server.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ISessionService _sessionService;
 
-        public SupplierService(IUnitOfWork unitOfWork, IMapper mapper)
+        public SupplierService(IUnitOfWork unitOfWork, IMapper mapper, ISessionService sessionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _sessionService = sessionService;
         }
 
         public async Task<List<SupplierDto>> GetAllAsync()
         {
-            var suppliers = await _unitOfWork.Suppliers.GetAllAsync();
+            var orgId = _sessionService.OrganizationId;
+            var suppliers = await _unitOfWork.Suppliers.FindAllAsync(s => s.OrganizationId == orgId);
             return _mapper.Map<List<SupplierDto>>(suppliers);
         }
 
@@ -32,6 +35,8 @@ namespace Server.Core.Services
         public async Task AddAsync(SupplierDto supplierDto)
         {
             var supplier = _mapper.Map<Supplier>(supplierDto);
+            supplier.OrganizationId = _sessionService.OrganizationId;
+
             await _unitOfWork.Suppliers.AddAsync(supplier);
             await _unitOfWork.SaveChangesAsync();
         }
@@ -42,10 +47,8 @@ namespace Server.Core.Services
             if (existing is null) return;
 
             _mapper.Map(supplierDto, existing);
-            _unitOfWork.Suppliers.Update(existing);
             await _unitOfWork.SaveChangesAsync();
         }
-
 
         public async Task DeleteAsync(Guid id)
         {

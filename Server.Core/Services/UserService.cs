@@ -80,7 +80,6 @@ namespace Server.Core.Services
             if (admin == null || user == null || admin.OrganizationId != user.OrganizationId)
                 return false;
 
-            // Генеруємо новий токен
             user.PasswordResetToken = Guid.NewGuid().ToString();
             user.PasswordResetTokenExpiryTime = DateTime.UtcNow.AddHours(24);
 

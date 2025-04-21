@@ -1,42 +1,41 @@
-﻿using System.Net.Http;
+﻿using Server.Shared.DTOs;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
-using Client.Helpers;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Json;
 
-public class AuthHttpClientHandler : DelegatingHandler
+namespace Client
 {
-    private readonly AuthApiService _authService;
-
-    public AuthHttpClientHandler(HttpMessageHandler innerHandler)
-        : base(innerHandler) 
+    public class AuthHttpClientHandler : DelegatingHandler
     {
-        var httpClient = new HttpClient
+        public AuthHttpClientHandler(HttpMessageHandler innerHandler)
+            : base(innerHandler) { }
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            BaseAddress = new Uri("https://localhost:7262/")
-        };
-        _authService = new (httpClient);
-    }
+            if (!string.IsNullOrEmpty(SessionManager.Current?.AccessToken))
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", SessionManager.Current.AccessToken);
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    {
-        if (!string.IsNullOrEmpty(SessionManager.Current?.AccessToken))
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", SessionManager.Current.AccessToken);
+            var response = await base.SendAsync(request, cancellationToken);
 
-        var response = await base.SendAsync(request, cancellationToken);
-
-        // Якщо токен не валідний — пробуємо оновити
-        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized && !string.IsNullOrEmpty(SessionManager.Current.RefreshToken))
-        {
-            var newToken = await _authService.RefreshTokenAsync(SessionManager.Current.RefreshToken);
-            if (!string.IsNullOrEmpty(newToken))
+            if (response.StatusCode == HttpStatusCode.Unauthorized && !string.IsNullOrEmpty(SessionManager.Current?.RefreshToken))
             {
-                SessionManager.Current.AccessToken = newToken;
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newToken);
-                response = await base.SendAsync(request, cancellationToken);
-            }
-        }
+                var tempClient = new HttpClient { BaseAddress = App.SharedHttpClient.BaseAddress };
+                var refreshResponse = await tempClient.PostAsJsonAsync("auth/refresh", SessionManager.Current.RefreshToken);
 
-        return response;
+                if (refreshResponse.IsSuccessStatusCode)
+                {
+                    var newToken = (await refreshResponse.Content.ReadFromJsonAsync<TokenResponseDto>())?.Token;
+                    if (!string.IsNullOrEmpty(newToken))
+                    {
+                        SessionManager.Current.AccessToken = newToken;
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newToken);
+                        return await base.SendAsync(request, cancellationToken);
+                    }
+                }
+            }
+
+            return response;
+        }
     }
 }

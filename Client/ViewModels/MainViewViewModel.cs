@@ -1,12 +1,9 @@
-﻿using Client.Helpers;
-using Client.Localization;
-using Client.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace Client.ViewModels
+namespace Client
 {
     public partial class MainViewViewModel : ObservableObject
     {
@@ -35,9 +32,7 @@ namespace Client.ViewModels
             Properties.Settings.Default.LastSection = "";
             Properties.Settings.Default.Save();
 
-            if (section == nameof(PrintFormatsCommand))
-                PrintFormatsCommand.Execute(null);
-            else if (section == nameof(WarehousesCommand))
+            if (section == nameof(WarehousesCommand))
                 WarehousesCommand.Execute(null);
             else
                 SuppliersCommand.Execute(null);
@@ -82,27 +77,25 @@ namespace Client.ViewModels
         }
 
         [RelayCommand]
-        private void PrintFormats()
+        private void MeasurementUnits()
         {
-            Title = Properties.Resources.MainViewPrintFormatsMenu;
-            //CurrentContent = new TextBlock
-            //{
-            //    Text = Properties.Resources.MainViewPrintFormatsMenu,
-            //    FontSize = 16,
-            //    Margin = new System.Windows.Thickness(10)
-            //};
+            Title = "Одиниці вимірювання";
+            CurrentContent = new MeasurementUnitsControl();
+        }
+
+        [RelayCommand]
+        private void Categories()
+        {
+            Title = "Категорії";
+            CurrentContent = new NamedEntitiesControl { DataContext = new CategoriesViewModel() };
         }
 
         [RelayCommand]
         private void Warehouses()
         {
-            Title = Properties.Resources.MainViewWarehousesMenu;
-            //CurrentContent = new TextBlock
-            //{
-            //    Text = Properties.Resources.MainViewWarehousesMenu,
-            //    FontSize = 16,
-            //    Margin = new System.Windows.Thickness(10)
-            //};
+            Title = "Складські приміщення";
+            CurrentContent = new NamedEntitiesControl { DataContext = new WarehousesViewModel() };
         }
+
     }
 }

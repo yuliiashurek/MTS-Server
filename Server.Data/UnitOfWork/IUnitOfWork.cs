@@ -1,5 +1,5 @@
 ﻿using Server.Data.Entities;
-using Server.Data.Repositories;
+using Server.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +11,11 @@ namespace Server.Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<Supplier> Suppliers { get; }
+        IRepository<Category> Categories { get; }
+        IRepository<Warehouse> Warehouses { get; }
+        IRepository<MeasurementUnit> MeasurementUnits { get; }
         IUserRepository Users { get; }
-        IOrganizationRepository Organizations { get; }
+        IRepository<Organization> Organizations { get; }
 
         Task<int> SaveChangesAsync();
 

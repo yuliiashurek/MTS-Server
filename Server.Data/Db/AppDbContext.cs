@@ -13,6 +13,9 @@ namespace Server.Data.Db
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Category> Catgories { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Organization> Organizations { get; set; }
 

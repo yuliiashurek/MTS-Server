@@ -1,6 +1,7 @@
 ﻿using Server.Data.Db;
 using Server.Data.Entities;
-using Server.Data.Repositories;
+using Server.Data.Repositories.Implementations;
+using Server.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,23 @@ namespace Server.Data.UnitOfWork
     {
         private readonly AppDbContext _context;
         private SupplierRepository? _supplierRepository;
+        private CategoryRepository? _categoriesRepository;
+        private WarehouseRepository? _warehousesRepository;
+        private MeasurementUnitRepository? _measurementUnitRepository;
+        private OrganizationRepository? _organizationRepository;
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Users = new UserRepository(context);
-            Organizations = new OrganizationRepository(context);
         }
 
         public IRepository<Supplier> Suppliers => _supplierRepository ??= new SupplierRepository(_context);
+        public IRepository<Category> Categories => _categoriesRepository ??= new CategoryRepository(_context);
+        public IRepository<Warehouse> Warehouses => _warehousesRepository ??= new WarehouseRepository(_context);
+        public IRepository<MeasurementUnit> MeasurementUnits => _measurementUnitRepository ??= new MeasurementUnitRepository(_context);
+        public IRepository<Organization> Organizations => _organizationRepository ??= new OrganizationRepository(_context);
         public IUserRepository Users { get; }
-
-        public IOrganizationRepository Organizations { get; }
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Client.Views
+namespace Client
 {
     public partial class MainWindow : Window
     {

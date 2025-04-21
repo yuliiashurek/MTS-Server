@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Client.Helpers
+namespace Client
 {
     public class BoolToVisibilityConverter : IValueConverter
     {
