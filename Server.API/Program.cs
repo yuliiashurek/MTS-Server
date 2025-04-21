@@ -3,10 +3,12 @@ using Server.Core.Services;
 using Server.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Server.Data.UnitOfWork;
-using Server.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Server.Shared.DTOs;
+using Server.Data.Repositories.Interfaces;
+using Server.Data.Repositories.Implementations;
 
 
 
@@ -34,6 +36,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ISessionService, SessionService>();
+
+builder.Services.AddScoped<IBaseService<CategoryDto>, CategoryService>();
+builder.Services.AddScoped<IBaseService<WarehouseDto>, WarehouseService>();
+builder.Services.AddScoped<IBaseService<MeasurementUnitDto>, MeasurementUnitService>();
 
 
 builder.Services.AddScoped<ISupplierService, SupplierService>();

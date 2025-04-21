@@ -10,7 +10,7 @@ namespace Server.API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class SuppliersController : ControllerBase
+    public class SuppliersController : Controller
     {
         private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;

@@ -1,11 +1,9 @@
 ﻿using System.Globalization;
-using System.Threading;
 using System.Windows;
 using System.Diagnostics;
-using System.IO;
 using Client.Properties;
 
-namespace Client.Localization
+namespace Client
 {
     public static class LanguageSettings
     {
@@ -23,9 +21,16 @@ namespace Client.Localization
         {
             Settings.Default.Language = cultureCode;
             Settings.Default.Save();
+
+            if (SessionManager.Current != null)
+            {
+                SessionManager.SetSession(SessionManager.Current);
+            }
+
             var culture = new CultureInfo(cultureCode);
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
+
             var exePath = Process.GetCurrentProcess().MainModule.FileName;
             Process.Start(new ProcessStartInfo
             {
@@ -34,5 +39,6 @@ namespace Client.Localization
             });
             Application.Current.Shutdown();
         }
+
     }
 }

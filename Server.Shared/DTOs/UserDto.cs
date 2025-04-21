@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.Shared.DTOs
 {
-    public class UserDto
+    public class UserDto : IBaseDto
     {
         public Guid Id { get; set; }
         public string Email { get; set; }

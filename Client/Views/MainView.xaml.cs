@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Client.Views
+namespace Client
 {
     public partial class MainView : UserControl
     {

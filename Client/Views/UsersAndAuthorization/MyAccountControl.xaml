@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Client.MyAccountControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Client">
+    <UserControl.DataContext>
+        <vm:MyAccountViewModel />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="30">
+        <TextBlock Text="Мій аккаунт" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+        <Button Content="Вийти з системи" Width="150" Height="35"
+                Command="{Binding LogoutCommand}" />
+    </StackPanel>
+</UserControl>

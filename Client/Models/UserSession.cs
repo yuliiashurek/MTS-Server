@@ -1,8 +1,11 @@
-﻿public class UserSession
+﻿namespace Client
 {
-    public string AccessToken { get; set; }
-    public string RefreshToken { get; set; }
-    public string Role { get; set; }
-    public string Email { get; set; }
+    public class UserSession
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+        public string Role { get; set; }
+        public string Email { get; set; }
+    }
 }
 

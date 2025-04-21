@@ -1,6 +1,6 @@
 ﻿namespace Server.Shared.DTOs
 {
-    public class SupplierDto
+    public class SupplierDto : IBaseDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -1,20 +1,20 @@
-﻿using Client.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Client.ViewModels;
-
-public partial class MainWindowViewModel : ObservableObject
+namespace Client
 {
-    [ObservableProperty]
-    private object currentView;
-
-    public void ShowLoginView()
+    public partial class MainWindowViewModel : ObservableObject
     {
-        CurrentView = new LoginView();
-    }
+        [ObservableProperty]
+        private object currentView;
 
-    public void ShowMainView()
-    {
-        CurrentView = new MainView();
+        public void ShowLoginView()
+        {
+            CurrentView = new LoginView();
+        }
+
+        public void ShowMainView()
+        {
+            CurrentView = new MainView();
+        }
     }
 }
