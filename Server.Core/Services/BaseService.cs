@@ -35,13 +35,25 @@ public abstract class BaseService<TEntity, TDto> : IBaseService<TDto>
         return entity == null ? null : _mapper.Map<TDto>(entity);
     }
 
-    public async Task AddAsync(TDto dto)
+    public async virtual Task<TDto> AddAndReturnAsync(TDto dto)
+    {
+        var entity = _mapper.Map<TEntity>(dto);
+        entity.OrganizationId = _session.OrganizationId;
+
+        await Repository.AddAsync(entity);
+        await _unitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<TDto>(entity);
+    }
+
+    public async virtual Task AddAsync(TDto dto)
     {
         var entity = _mapper.Map<TEntity>(dto);
         entity.OrganizationId = _session.OrganizationId;
         await Repository.AddAsync(entity);
         await _unitOfWork.SaveChangesAsync();
     }
+
 
     public async Task UpdateAsync(TDto dto)
     {

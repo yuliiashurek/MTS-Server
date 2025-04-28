@@ -28,7 +28,11 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,6 +46,8 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IBaseService<CategoryDto>, CategoryService>();
 builder.Services.AddScoped<IBaseService<WarehouseDto>, WarehouseService>();
 builder.Services.AddScoped<IBaseService<MeasurementUnitDto>, MeasurementUnitService>();
+builder.Services.AddScoped<IBaseService<MaterialItemDto>, MaterialItemsService>();
+builder.Services.AddScoped<IBaseService<MaterialMovementDto>, MaterialMovementsService>();
 
 
 builder.Services.AddScoped<ISupplierService, SupplierService>();

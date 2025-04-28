@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Client.ViewModels;
+using Client.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
@@ -95,6 +97,20 @@ namespace Client
         {
             Title = "Складські приміщення";
             CurrentContent = new NamedEntitiesControl { DataContext = new WarehousesViewModel() };
+        }
+
+        [RelayCommand]
+        private void MaterialItems()
+        {
+            Title = "Матеріали";
+            CurrentContent = new MaterialItemsControl();
+        }
+
+        [RelayCommand]
+        private void MaterialMovements()
+        {
+            Title = "Рух матеріалів";
+            CurrentContent = new MaterialMovementsControl();
         }
 
     }

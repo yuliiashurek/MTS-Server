@@ -18,6 +18,8 @@ namespace Server.Data.UnitOfWork
         private WarehouseRepository? _warehousesRepository;
         private MeasurementUnitRepository? _measurementUnitRepository;
         private OrganizationRepository? _organizationRepository;
+        private MaterialItemRepository? _materialItemRepository;
+        private MaterialMovementRepository? _materialMovementRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -29,8 +31,11 @@ namespace Server.Data.UnitOfWork
         public IRepository<Category> Categories => _categoriesRepository ??= new CategoryRepository(_context);
         public IRepository<Warehouse> Warehouses => _warehousesRepository ??= new WarehouseRepository(_context);
         public IRepository<MeasurementUnit> MeasurementUnits => _measurementUnitRepository ??= new MeasurementUnitRepository(_context);
+        public IRepository<MaterialItem> MaterialItems => _materialItemRepository ??= new MaterialItemRepository(_context);
         public IRepository<Organization> Organizations => _organizationRepository ??= new OrganizationRepository(_context);
         public IUserRepository Users { get; }
+
+        public IRepository<MaterialMovement> MaterialMovements => _materialMovementRepository ?? new MaterialMovementRepository(_context);
 
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 
