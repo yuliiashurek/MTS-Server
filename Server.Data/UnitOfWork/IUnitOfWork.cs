@@ -14,6 +14,8 @@ namespace Server.Data.UnitOfWork
         IRepository<Category> Categories { get; }
         IRepository<Warehouse> Warehouses { get; }
         IRepository<MeasurementUnit> MeasurementUnits { get; }
+        IRepository<MaterialItem> MaterialItems { get; }
+        IRepository<MaterialMovement> MaterialMovements { get; }
         IUserRepository Users { get; }
         IRepository<Organization> Organizations { get; }
 

@@ -10,8 +10,10 @@ namespace Server.Core.Interfaces
     {
         Task<List<TDto>> GetAllAsync();
         Task<TDto?> GetByIdAsync(Guid id);
+        Task<TDto> AddAndReturnAsync(TDto dto);
         Task AddAsync(TDto dto);
         Task UpdateAsync(TDto dto);
         Task DeleteAsync(Guid id);
     }
+
 }
