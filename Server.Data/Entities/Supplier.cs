@@ -11,5 +11,6 @@
 
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; } = null!;
+        public string EdrpouCode { get; set; } = string.Empty;
     }
 }

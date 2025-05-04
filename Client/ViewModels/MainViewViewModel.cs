@@ -119,5 +119,12 @@ namespace Client
             Title = "Дашборди";
             CurrentContent = new AllDashboardsControl();
         }
+
+        [RelayCommand]
+        private void Reporting()
+        {
+            Title = "Звітність";
+            CurrentContent = new ReportsView();
+        }
     }
 }
