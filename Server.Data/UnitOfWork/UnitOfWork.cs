@@ -14,6 +14,7 @@ namespace Server.Data.UnitOfWork
     {
         private readonly AppDbContext _context;
         private SupplierRepository? _supplierRepository;
+        private RecipientRepository? _recipientRepository;
         private CategoryRepository? _categoriesRepository;
         private WarehouseRepository? _warehousesRepository;
         private MeasurementUnitRepository? _measurementUnitRepository;
@@ -28,6 +29,7 @@ namespace Server.Data.UnitOfWork
         }
 
         public IRepository<Supplier> Suppliers => _supplierRepository ??= new SupplierRepository(_context);
+        public IRecipientRepository Recipients => _recipientRepository ??= new RecipientRepository(_context);
         public IRepository<Category> Categories => _categoriesRepository ??= new CategoryRepository(_context);
         public IRepository<Warehouse> Warehouses => _warehousesRepository ??= new WarehouseRepository(_context);
         public IRepository<MeasurementUnit> MeasurementUnits => _measurementUnitRepository ??= new MeasurementUnitRepository(_context);

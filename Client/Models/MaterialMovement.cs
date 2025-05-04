@@ -28,5 +28,7 @@ namespace Client.Models
         public string CategoryName { get; set; } = string.Empty;
         [NotMapped]
         public string SupplierName { get; set; } = string.Empty;
+        public Guid? RecipientId { get; set; }
+
     }
 }

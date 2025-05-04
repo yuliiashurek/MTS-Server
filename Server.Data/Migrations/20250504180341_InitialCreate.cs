@@ -30,11 +30,32 @@ namespace Server.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EdrpouCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CityForDocs = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FioForDocs = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Organizations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipients",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Edrpou = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactPerson = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,7 +87,8 @@ namespace Server.Data.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EdrpouCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,7 +198,9 @@ namespace Server.Data.Migrations
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PricePerUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MovementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BarcodeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipientId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -185,6 +209,12 @@ namespace Server.Data.Migrations
                         name: "FK_MaterialMovements_MaterialItems_MaterialItemId",
                         column: x => x.MaterialItemId,
                         principalTable: "MaterialItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MaterialMovements_Recipients_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "Recipients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -226,6 +256,11 @@ namespace Server.Data.Migrations
                 column: "MaterialItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MaterialMovements_RecipientId",
+                table: "MaterialMovements",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MaterialMovements_WarehouseId",
                 table: "MaterialMovements",
                 column: "WarehouseId");
@@ -257,6 +292,9 @@ namespace Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "MaterialItems");
+
+            migrationBuilder.DropTable(
+                name: "Recipients");
 
             migrationBuilder.DropTable(
                 name: "Warehouses");

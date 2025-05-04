@@ -3,21 +3,94 @@
 <head>
     <meta charset="utf-8">
     <style>
-        body { font-family: DejaVu Sans, sans-serif; font-size: 12pt; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        td, th { border: 1px solid black; padding: 4px; }
-        h2 { text-align: center; }
-        .section { margin-top: 20px; }
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 14pt;
+            margin: 20mm 10mm 20mm 30mm; /* в, п, н, л */
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+
+        h2 {
+            text-align: center;
+        }
+
+        .date-row {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .date-row td {
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+
+        .date-cell-left {
+            text-align: left;
+            border: none;
+        }
+
+        .date-cell-right {
+            text-align: right;
+            border: none;
+        }
+
+        /*p {
+            margin: 10px 0;
+        }*/
+
+        /*.section {
+            margin-top: 20px;
+        }*/
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 6px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .signature-block {
+            margin-top: 60px;
+        }
+
+        .signature-table {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .signature-table td {
+            border: none;
+            vertical-align: top;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
+
     <h2>АКТ ПРИЙМАННЯ-ПЕРЕДАЧІ ТОВАРУ</h2>
 
-    <p><strong>м. {City} «{Day}» {Month} {Year} року</strong></p>
+    <table class="date-row">
+        <tr>
+            <td class="date-cell-left">м. {City}</td>
+            <td class="date-cell-right">«{Day}» {Month} {Year} року</td>
+        </tr>
+    </table>
 
     <p>Цей Акт приймання-передачі Товару складений Сторонами згідно Договору № <strong>{ContractNumber}</strong> від «{Day}» {Month} {Year} року між:</p>
 
     <p><strong>ТОВ «{BuyerName}»</strong>, код ЄДРПОУ {BuyerEDRPOU}, місцезнаходження: {BuyerAddress}, надалі – «<strong>Покупець</strong>»,</p>
+
     <p><strong>ТОВ «{SupplierName}»</strong>, код ЄДРПОУ {SupplierEDRPOU}, місцезнаходження: {SupplierAddress}, надалі – «<strong>Постачальник</strong>» склали цей Акт про наступне:</p>
 
     <p class="section">1. Відповідно до умов Договору № {ContractNumber}, Постачальник передав, а Покупець прийняв наступний Товар:</p>
@@ -42,7 +115,22 @@
 
     <p class="section">2. Акт набуває чинності з моменту підписання.</p>
 
-    <p><strong>За Постачальника:</strong><br/>ПІБ: {SupplierContactPerson}<br/>Підпис: ____________</p>
-    <p><strong>За Покупця:</strong><br/>ПІБ: {BuyerFio}<br/>Підпис: ____________</p>
+    <div class="signature-block">
+        <table class="signature-table">
+            <tr>
+                <td>
+                    <strong>За Постачальника:</strong><br />
+                    ПІБ: {SupplierContactPerson}<br />
+                    Підпис: ____________
+                </td>
+                <td style="text-align:right;">
+                    <strong>За Покупця:</strong><br />
+                    ПІБ: {BuyerFio}<br />
+                    Підпис: ____________
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </body>
 </html>

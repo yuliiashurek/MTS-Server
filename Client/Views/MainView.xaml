@@ -51,12 +51,7 @@ Background="Transparent" BorderThickness="0"
 HorizontalAlignment="Left"
 Cursor="Hand"
 Command="{Binding ReportingCommand}" />
-                <Button Content="{x:Static properties:Resources.MainViewMaterialsMenu}"
-    FontSize="13" Margin="0,0,0,2" Padding="0"
-    Background="Transparent" BorderThickness="0"
-    HorizontalAlignment="Left"
-    Cursor="Hand"
-    Command="{Binding MaterialItemsCommand}" />
+                
                 <Button Content="Рух матеріалів"
 FontSize="13" Margin="0,0,0,2" Padding="0"
 Background="Transparent" BorderThickness="0"
@@ -76,6 +71,12 @@ Command="{Binding MaterialMovementsCommand}" />
                         </TextBlock>
                     </Expander.Header>
                     <StackPanel Margin="15,5,0,0">
+                        <Button Content="{x:Static properties:Resources.MainViewMaterialsMenu}"
+FontSize="13" Margin="0,0,0,2" Padding="0"
+Background="Transparent" BorderThickness="0"
+HorizontalAlignment="Left"
+Cursor="Hand"
+Command="{Binding MaterialItemsCommand}" />
                         <Button Content="{x:Static properties:Resources.MainViewSuppliersMenu}"
                             FontSize="13" Margin="0,0,0,2" Padding="0"
                             Background="Transparent" BorderThickness="0"

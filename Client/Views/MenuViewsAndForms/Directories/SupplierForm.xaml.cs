@@ -18,7 +18,8 @@ namespace Client
                 ContactPerson = supplier.ContactPerson,
                 Phone = supplier.Phone,
                 Email = supplier.Email,
-                Address = supplier.Address
+                Address = supplier.Address,
+                EdrpouCode = supplier.EdrpouCode
             } : new Supplier();
 
             NameBox.Text = Supplier.Name;
@@ -26,6 +27,7 @@ namespace Client
             PhoneBox.Text = Supplier.Phone;
             EmailBox.Text = Supplier.Email;
             AddressBox.Text = Supplier.Address;
+            EdrpouBox.Text = Supplier.EdrpouCode;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -41,6 +43,7 @@ namespace Client
             Supplier.Phone = PhoneBox.Text;
             Supplier.Email = EmailBox.Text;
             Supplier.Address = AddressBox.Text;
+            Supplier.EdrpouCode = EdrpouBox.Text;
 
             DialogResult = true;
             Close();

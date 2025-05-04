@@ -29,5 +29,9 @@ namespace Server.Data.Entities
         public DateTime? ExpirationDate { get; set; }
         public string BarcodeNumber { get; set; } = string.Empty;
 
+        public Guid? RecipientId { get; set; }
+        public Recipient? Recipient { get; set; }
+
+
     }
 }

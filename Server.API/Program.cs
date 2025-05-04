@@ -52,6 +52,7 @@ builder.Services.AddScoped<PdfService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 
 builder.Services.AddScoped<IBaseService<CategoryDto>, CategoryService>();
+builder.Services.AddScoped<IRecipientService, RecipientService>();
 builder.Services.AddScoped<IBaseService<WarehouseDto>, WarehouseService>();
 builder.Services.AddScoped<IBaseService<MeasurementUnitDto>, MeasurementUnitService>();
 builder.Services.AddScoped<IBaseService<MaterialItemDto>, MaterialItemsService>();

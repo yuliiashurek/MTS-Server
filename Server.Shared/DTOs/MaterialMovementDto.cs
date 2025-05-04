@@ -27,5 +27,7 @@ namespace Server.Shared.DTOs
         public DateTime? ExpirationDate { get; set; }
 
         public string BarcodeNumber { get; set; }
+        public Guid? RecipientId { get; set; }
+
     }
 }
