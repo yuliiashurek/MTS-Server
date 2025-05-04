@@ -54,14 +54,14 @@ public class AuthService : IAuthService
             return null;
 
         var newAccessToken = _tokenService.GenerateAccessToken(user);
-        var newRefreshToken = _tokenService.GenerateRefreshToken();
+        //var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-        user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
-            int.Parse(_config["Jwt:RefreshTokenExpirationDays"]!));
+        //user.RefreshToken = newRefreshToken;
+        //user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
+        //    int.Parse(_config["Jwt:RefreshTokenExpirationDays"]!));
 
-        _unitOfWork.Users.Update(user);
-        await _unitOfWork.SaveChangesAsync();
+        //_unitOfWork.Users.Update(user);
+        // await _unitOfWork.SaveChangesAsync();
 
         return newAccessToken;
     }

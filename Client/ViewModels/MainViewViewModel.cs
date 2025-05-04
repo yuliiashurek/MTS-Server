@@ -113,5 +113,11 @@ namespace Client
             CurrentContent = new MaterialMovementsControl();
         }
 
+        [RelayCommand]
+        private void Dashboards()
+        {
+            Title = "Дашборди";
+            CurrentContent = new AllDashboardsControl();
+        }
     }
 }

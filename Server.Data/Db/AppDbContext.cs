@@ -36,22 +36,22 @@ namespace Server.Data.Db
                 entity.HasOne(e => e.Organization)
                       .WithMany()
                       .HasForeignKey(e => e.OrganizationId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(e => e.MeasurementUnit)
                       .WithMany()
                       .HasForeignKey(e => e.MeasurementUnitId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict); 
 
                 entity.HasOne(e => e.Category)
                       .WithMany()
                       .HasForeignKey(e => e.CategoryId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(e => e.Supplier)
                       .WithMany()
                       .HasForeignKey(e => e.SupplierId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<MaterialMovement>(entity =>
@@ -75,12 +75,12 @@ namespace Server.Data.Db
                 entity.HasOne(e => e.MaterialItem)
                       .WithMany()
                       .HasForeignKey(e => e.MaterialItemId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict); 
 
                 entity.HasOne(e => e.Warehouse)
                       .WithMany()
                       .HasForeignKey(e => e.WarehouseId)
-                      .OnDelete(DeleteBehavior.Restrict); // ✅
+                      .OnDelete(DeleteBehavior.Restrict); 
             });
         }
     }

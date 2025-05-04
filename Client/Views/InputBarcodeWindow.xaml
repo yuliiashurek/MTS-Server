@@ -1,0 +1,18 @@
+﻿<hc:Window x:Class="Client.Views.InputBarcodeWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           Width="350" Height="160"
+           WindowStartupLocation="CenterScreen"
+           Title="Введіть Barcode">
+
+    <StackPanel Margin="20">
+        <TextBlock Text="Barcode:" FontWeight="Bold"/>
+        <TextBox Margin="0,5,0,10" FontSize="14" x:Name="BarcodeTextBox"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Скасувати" Width="100" Margin="0,0,5,0" Click="Cancel_Click"/>
+            <Button Content="Ок" Width="80" Click="Ok_Click"/>
+        </StackPanel>
+    </StackPanel>
+</hc:Window>

@@ -26,16 +26,13 @@ public class MaterialMovementsService : BaseService<MaterialMovement, MaterialMo
     {
         var entity = _mapper.Map<MaterialMovement>(dto);
 
-        // Ставимо organizationId
         entity.OrganizationId = _session.OrganizationId;
 
-        // Генеруємо короткий номер для штрихкоду
         entity.BarcodeNumber = await GenerateBarcodeNumberAsync(entity.OrganizationId);
 
         await Repository.AddAsync(entity);
         await _unitOfWork.SaveChangesAsync();
 
-        // Повертаємо новостворений об'єкт назад
         return _mapper.Map<MaterialMovementDto>(entity);
     }
 
@@ -43,16 +40,16 @@ public class MaterialMovementsService : BaseService<MaterialMovement, MaterialMo
     {
         var entity = _mapper.Map<MaterialMovement>(dto);
 
-        // Ставимо organizationId
         entity.OrganizationId = _session.OrganizationId;
 
-        // Генеруємо короткий номер для штрихкоду
-        entity.BarcodeNumber = await GenerateBarcodeNumberAsync(entity.OrganizationId);
+        if (string.IsNullOrEmpty(dto.BarcodeNumber))
+        {
+            entity.BarcodeNumber = await GenerateBarcodeNumberAsync(entity.OrganizationId);
+        }
 
         await Repository.AddAsync(entity);
         await _unitOfWork.SaveChangesAsync();
 
-        // Повертаємо новостворений об'єкт назад
         return _mapper.Map<MaterialMovementDto>(entity);
     }
 
