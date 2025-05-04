@@ -15,7 +15,6 @@
 
     <DockPanel Margin="20">
 
-        <!-- Верхня панель з кнопкою -->
         <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -29,7 +28,6 @@
                     Grid.Column="1"/>
         </Grid>
 
-        <!-- Основна таблиця з фільтрами -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -44,6 +42,8 @@
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <!-- Новий фільтр -->
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
@@ -63,11 +63,14 @@
                 <TextBox Grid.Column="4" Margin="2" Height="28" VerticalContentAlignment="Center"
                          Text="{Binding AddressFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Grid.Column="5" Margin="2" Height="28" Content="🔍"
+                <TextBox Grid.Column="5" Margin="2" Height="28" VerticalContentAlignment="Center"
+                         Text="{Binding EdrpouFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button Grid.Column="6" Margin="2" Height="28" Content="🔍"
                         ToolTip="{x:Static properties:Resources.SuppliersControlApplyFilter}"
                         Command="{Binding ApplyFiltersCommand}"/>
 
-                <Button Grid.Column="6" Margin="2" Height="28" Content="♻️"
+                <Button Grid.Column="7" Margin="2" Height="28" Content="♻️"
                         ToolTip="{x:Static properties:Resources.SuppliersControlClearFilter}"
                         Command="{Binding ClearFiltersCommand}"/>
             </Grid>
@@ -92,6 +95,7 @@
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormPhoneNumberLabel}" Binding="{Binding Phone}" Width="2*" />
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormEmailLabel}" Binding="{Binding Email}" Width="2*" />
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormAddressLabel}" Binding="{Binding Address}" Width="2*" />
+                    <DataGridTextColumn Header="ЄДРПОУ" Binding="{Binding EdrpouCode}" Width="2*" />
 
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>

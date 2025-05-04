@@ -19,6 +19,7 @@ namespace Client
         [ObservableProperty] private string phoneFilter;
         [ObservableProperty] private string emailFilter;
         [ObservableProperty] private string addressFilter;
+        [ObservableProperty] private string edrpouFilter;
 
         public SuppliersViewModel()
         {
@@ -59,13 +60,16 @@ namespace Client
             if (!string.IsNullOrWhiteSpace(AddressFilter))
                 filtered = filtered.Where(s => s.Address?.Contains(AddressFilter, StringComparison.OrdinalIgnoreCase) == true);
 
+            if (!string.IsNullOrWhiteSpace(EdrpouFilter))
+                filtered = filtered.Where(s => s.EdrpouCode?.Contains(EdrpouFilter, StringComparison.OrdinalIgnoreCase) == true);
+
             Suppliers = new ObservableCollection<Supplier>(filtered);
         }
 
         [RelayCommand]
         private void ClearFilters()
         {
-            NameFilter = ContactFilter = PhoneFilter = EmailFilter = AddressFilter = string.Empty;
+            NameFilter = ContactFilter = PhoneFilter = EmailFilter = AddressFilter = EdrpouFilter = string.Empty;
             ApplyFilters();
         }
 

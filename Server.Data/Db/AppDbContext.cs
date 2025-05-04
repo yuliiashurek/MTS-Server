@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Server.Data.Entities;
 
 namespace Server.Data.Db
@@ -8,6 +9,7 @@ namespace Server.Data.Db
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Recipient> Recipients { get; set; }
         public DbSet<Category> Catgories { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
@@ -72,16 +74,39 @@ namespace Server.Data.Db
                 entity.Property(e => e.ExpirationDate)
                       .IsRequired(false);
 
-                entity.HasOne(e => e.MaterialItem)
+                entity.Property(e => e.RecipientId)
+                    .HasColumnType("uniqueidentifier")
+                    .IsRequired(false);
+
+                entity.HasOne(e => e.Recipient)
                       .WithMany()
-                      .HasForeignKey(e => e.MaterialItemId)
-                      .OnDelete(DeleteBehavior.Restrict); 
+                      .HasForeignKey(e => e.RecipientId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
 
                 entity.HasOne(e => e.Warehouse)
                       .WithMany()
                       .HasForeignKey(e => e.WarehouseId)
-                      .OnDelete(DeleteBehavior.Restrict); 
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Recipient)
+                      .WithMany()
+                      .HasForeignKey(e => e.RecipientId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
+
         }
     }
+
+    //public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    //{
+    //    public AppDbContext CreateDbContext(string[] args)
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+    //        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MTSdb;Trusted_Connection=True;");
+
+    //        return new AppDbContext(optionsBuilder.Options);
+    //    }
+    //}
 }

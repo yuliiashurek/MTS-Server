@@ -11,6 +11,7 @@ namespace Server.Data.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<Supplier> Suppliers { get; }
+        IRecipientRepository Recipients { get; }
         IRepository<Category> Categories { get; }
         IRepository<Warehouse> Warehouses { get; }
         IRepository<MeasurementUnit> MeasurementUnits { get; }

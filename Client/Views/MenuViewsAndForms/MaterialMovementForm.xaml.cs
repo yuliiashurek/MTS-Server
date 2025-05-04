@@ -1,5 +1,6 @@
 ﻿using Client.Models;
-using Server.Shared.Enums;
+using Client.Services.ApiServices;
+using Server.Shared.DTOs;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Client.Views
 
         private readonly ObservableCollection<MaterialItem> _materials;
         private readonly ObservableCollection<Warehouse> _warehouses;
+        private readonly RecipientApiService _recipientApi = new();
 
         private class MovementTypeItem
         {
@@ -29,18 +31,17 @@ namespace Client.Views
             _warehouses = warehouses;
 
             MaterialComboBox.ItemsSource = _materials;
-            MaterialComboBox.DisplayMemberPath = "Name";
-
             WarehouseComboBox.ItemsSource = _warehouses;
-            WarehouseComboBox.DisplayMemberPath = "Name";
 
             MovementTypeComboBox.ItemsSource = new[]
             {
                 new MovementTypeItem { Name = "Прийом (IN)", Type = 0 },
                 new MovementTypeItem { Name = "Витрата (OUT)", Type = 1 }
             };
-            MovementTypeComboBox.DisplayMemberPath = "Name";
             MovementTypeComboBox.SelectedIndex = 0;
+            MovementTypeComboBox.SelectionChanged += (s, e) => UpdateVisibility();
+
+            Loaded += (_, _) => UpdateVisibility();
 
             if (movement != null)
             {
@@ -60,28 +61,97 @@ namespace Client.Views
             }
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void UpdateVisibility()
+        {
+            WarehouseRow.Visibility = Visibility.Visible;
+            PriceRow.Visibility = Visibility.Visible;
+            ExpirationRow.Visibility = MovementTypeComboBox.SelectedItem is MovementTypeItem selected && selected.Type == 1
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+
+            RecipientPanel.Visibility = MovementTypeComboBox.SelectedItem is MovementTypeItem m && m.Type == 1
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+
+
+
+        private async void RecipientNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var name = RecipientNameTextBox.Text;
+            if (string.IsNullOrWhiteSpace(name)) return;
+
+            var existing = await _recipientApi.GetByNameAsync(name);
+            if (existing != null)
+            {
+                RecipientEdrpouTextBox.Text = existing.Edrpou;
+                RecipientAddressTextBox.Text = existing.Address;
+                RecipientContactTextBox.Text = existing.ContactPerson;
+
+                RecipientEdrpouTextBox.IsEnabled = false;
+                RecipientAddressTextBox.IsEnabled = false;
+                RecipientContactTextBox.IsEnabled = false;
+            }
+            else
+            {
+                RecipientEdrpouTextBox.Text = "";
+                RecipientAddressTextBox.Text = "";
+                RecipientContactTextBox.Text = "";
+
+                RecipientEdrpouTextBox.IsEnabled = true;
+                RecipientAddressTextBox.IsEnabled = true;
+                RecipientContactTextBox.IsEnabled = true;
+            }
+        }
+
+        private async void Save_Click(object sender, RoutedEventArgs e)
         {
             if (MaterialComboBox.SelectedItem is not MaterialItem selectedMaterial ||
-                WarehouseComboBox.SelectedItem is not Warehouse selectedWarehouse ||
                 !decimal.TryParse(QuantityTextBox.Text, out var quantity))
             {
-                MessageBox.Show("Будь ласка, заповніть усі обов'язкові поля правильно.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Будь ласка, заповніть обов’язкові поля.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var priceParsed = decimal.TryParse(PriceTextBox.Text, out var pricePerUnit);
-            var selectedMovementType = (MovementTypeItem)MovementTypeComboBox.SelectedItem;
+            var selectedType = (MovementTypeItem)MovementTypeComboBox.SelectedItem;
+            bool isOut = selectedType.Type == 1;
+            Guid? recipientId = null;
+
+            if (isOut)
+            {
+                if (string.IsNullOrWhiteSpace(RecipientNameTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(RecipientEdrpouTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(RecipientAddressTextBox.Text))
+                {
+                    MessageBox.Show("Будь ласка, заповніть усі поля отримувача.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var existing = await _recipientApi.GetByNameAsync(RecipientNameTextBox.Text);
+                if (existing == null)
+                {
+                    existing = await _recipientApi.CreateAsync(new RecipientDto
+                    {
+                        Name = RecipientNameTextBox.Text,
+                        Edrpou = RecipientEdrpouTextBox.Text,
+                        Address = RecipientAddressTextBox.Text,
+                        ContactPerson = RecipientContactTextBox.Text
+                    });
+                }
+
+                recipientId = existing.Id;
+            }
 
             Result = new MaterialMovement
             {
                 MaterialItemId = selectedMaterial.Id,
-                WarehouseId = selectedWarehouse.Id,
-                MovementType = selectedMovementType.Type,
+                WarehouseId = ((Warehouse)WarehouseComboBox.SelectedItem)?.Id ?? Guid.Empty,
+                MovementType = selectedType.Type,
                 Quantity = quantity,
-                PricePerUnit = priceParsed ? pricePerUnit : 0,
+                PricePerUnit = isOut ? 0 : decimal.TryParse(PriceTextBox.Text, out var price) ? price : 0,
                 MovementDate = MovementDatePicker.SelectedDate ?? DateTime.Now,
-                ExpirationDate = ExpirationDatePicker.SelectedDate,
+                ExpirationDate = isOut ? null : ExpirationDatePicker.SelectedDate,
+                RecipientId = recipientId,
                 BarcodeNumber = string.Empty
             };
 
