@@ -28,15 +28,12 @@ namespace Client.Views
             _materials = materials;
             _warehouses = warehouses;
 
-            // Прив'язка матеріалів
             MaterialComboBox.ItemsSource = _materials;
             MaterialComboBox.DisplayMemberPath = "Name";
 
-            // Прив'язка складів
             WarehouseComboBox.ItemsSource = _warehouses;
             WarehouseComboBox.DisplayMemberPath = "Name";
 
-            // Прив'язка типу руху
             MovementTypeComboBox.ItemsSource = new[]
             {
                 new MovementTypeItem { Name = "Прийом (IN)", Type = 0 },

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Client.Views.MaterialMovementsControl"
+﻿<!-- Виправлений XAML з поверненням підвалу -->
+<UserControl x:Class="Client.Views.MaterialMovementsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Client.ViewModels"
              xmlns:local="clr-namespace:Client.Helpers"
-             xmlns:localClient="clr-namespace:Client"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:MaterialMovementViewModel}">
@@ -15,11 +15,11 @@
         <local:WarehouseNameMultiConverter x:Key="WarehouseNameMultiConverter"/>
         <local:MovementTypeToStringConverter x:Key="MovementTypeToStringConverter"/>
         <local:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
-        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <local:CategoryNameMultiConverter x:Key="CategoryNameMultiConverter" />
-        <local:MeasurementUnitNameMultiConverter x:Key="MeasurementUnitNameMultiConverter" />
-        <local:MinStockWithUnitMultiConverter x:Key="MinStockWithUnitMultiConverter" />
-        <local:MovementTypeToArrowConverter x:Key="MovementTypeToArrowConverter" />
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <local:CategoryNameMultiConverter x:Key="CategoryNameMultiConverter"/>
+        <local:MeasurementUnitNameMultiConverter x:Key="MeasurementUnitNameMultiConverter"/>
+        <local:MinStockWithUnitMultiConverter x:Key="MinStockWithUnitMultiConverter"/>
+        <local:MovementTypeToArrowConverter x:Key="MovementTypeToArrowConverter"/>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -28,21 +28,55 @@
 
     <DockPanel Margin="20">
 
-        <!-- Верхні кнопки -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
             <Button Content="➕ Додати" Command="{Binding AddMaterialMovementCommand}" Width="120" Margin="0,0,10,0"/>
             <Button Content="🔄 Оновити" Command="{Binding LoadAllDataCommand}" Width="120"/>
+            <Button Content="⬇️ Списати за Barcode" Command="{Binding WriteOffByBarcodeCommand}" Width="160" Margin="10,0,0,0"/>
+
         </StackPanel>
 
+        <!-- Панель фільтрів (під кнопками) -->
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Категорія" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
+                          ItemsSource="{Binding Categories}"
+                          SelectedItem="{Binding SelectedCategoryFilter, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="Склад" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
+                          ItemsSource="{Binding Warehouses}"
+                          SelectedItem="{Binding SelectedWarehouseFilter, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="4">
+                <TextBlock Text="Постачальник" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
+                          ItemsSource="{Binding Suppliers}"
+                          SelectedItem="{Binding SelectedSupplierFilter, Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Таблиця + підвал -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" MinHeight="0" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Таблиця -->
             <DataGrid Grid.Row="0"
-                      ItemsSource="{Binding MaterialMovements}"
+                      ItemsSource="{Binding FilteredMaterialMovements}"
                       SelectedItem="{Binding SelectedMaterialMovement}"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
@@ -52,8 +86,8 @@
                       ColumnHeaderHeight="35"
                       FontSize="14"
                       SelectionMode="Single"
-                      Margin="0" >
-
+                      Margin="0">
+                <!-- Стовпці -->
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Матеріал" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -69,7 +103,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="Склад" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -85,12 +118,10 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Рух" Binding="{Binding MovementType, Converter={StaticResource MovementTypeToArrowConverter}}" />
-
                     <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}" Width="1*" />
                     <DataGridTextColumn Header="Ціна" Binding="{Binding PricePerUnit}" Width="1*" />
                     <DataGridTextColumn Header="Дата руху" Binding="{Binding MovementDate, StringFormat=d}" Width="1.5*" />
-                    <DataGridTextColumn Header="Expiration Date" Binding="{Binding ExpirationDate, StringFormat=d}" Width="1.5*" />
-
+                    <DataGridTextColumn Header="Expiration" Binding="{Binding ExpirationDate, StringFormat=d}" Width="1.5*" />
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -100,7 +131,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -110,29 +140,27 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="🏷️" Padding="4" Margin="2"
-                    Command="{Binding DataContext.PrintLabelCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding}" />
+                                        Command="{Binding DataContext.PrintLabelCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Підвал -->
+            <!-- Повернутий підвал -->
             <Border Grid.Row="1"
-        Margin="0,10,0,0"
-        Padding="15"
-        Background="#FAFAFA"
-        BorderThickness="1"
-        BorderBrush="#DDD"
-        CornerRadius="8"
-        Visibility="{Binding SelectedMaterialMovement, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    Margin="0,10,0,0"
+                    Padding="15"
+                    Background="#FAFAFA"
+                    BorderThickness="1"
+                    BorderBrush="#DDD"
+                    CornerRadius="8"
+                    Visibility="{Binding SelectedMaterialMovement, Converter={StaticResource ObjectToVisibilityConverter}}">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -141,13 +169,14 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Ліва частина: Інформація про рух -->
+                    <!-- Ліва частина -->
                     <StackPanel Grid.Column="0" Margin="10,0,20,0" VerticalAlignment="Top">
                         <TextBlock Text="Інформація про рух матеріалу" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
                         <TextBlock Text="{Binding SelectedMaterialMovement.Quantity, StringFormat=Кількість: {0:F2}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Text="{Binding SelectedMaterialMovement.PricePerUnit, StringFormat=Ціна: {0:F2}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Text="{Binding SelectedMaterialMovement.MovementDate, StringFormat=Дата руху: {0:d}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Text="{Binding SelectedMaterialMovement.ExpirationDate, StringFormat=Expiration: {0:d}}" Margin="0,2" FontSize="13"/>
+                        <TextBlock Text="{Binding SelectedMaterialMovement.BarcodeNumber, StringFormat=Barcode: {0:d}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <Binding Path="SelectedMaterialMovement.MovementType">
@@ -159,14 +188,10 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <!-- Центр: Інформація про матеріал -->
+                    <!-- Центр -->
                     <StackPanel Grid.Column="1" Margin="10,0,20,0" VerticalAlignment="Top">
                         <TextBlock Text="Інформація про матеріал" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
-
-                        <!-- Назва -->
                         <TextBlock Text="{Binding SelectedMaterialItem.Name, StringFormat=Назва: {0}}" Margin="0,2" FontSize="13"/>
-
-                        <!-- Мінімальний запас + одиниця вимірювання -->
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource MinStockWithUnitMultiConverter}">
@@ -176,8 +201,6 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-
-                        <!-- Категорія -->
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CategoryNameMultiConverter}">
@@ -186,19 +209,9 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-
-                        <!-- Одиниця вимірювання (окремо) -->
-                        <!--<TextBlock Margin="0,2" FontSize="13">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource MeasurementUnitNameMultiConverter}">
-                                    <Binding Path="SelectedMaterialItem.MeasurementUnitId" />
-                                    <Binding Path="MeasurementUnits" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>-->
                     </StackPanel>
 
-                    <!-- Права частина: Інформація про постачальника -->
+                    <!-- Права частина -->
                     <StackPanel Grid.Column="2" Margin="10,0,10,0" VerticalAlignment="Top">
                         <TextBlock Text="Постачальник" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
                         <Border Background="White" BorderBrush="#EEE" BorderThickness="1" CornerRadius="6" Padding="10">
@@ -211,11 +224,8 @@
                             </StackPanel>
                         </Border>
                     </StackPanel>
-
                 </Grid>
             </Border>
-
-
         </Grid>
     </DockPanel>
 </UserControl>

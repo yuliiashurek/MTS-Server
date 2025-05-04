@@ -29,10 +29,17 @@
                 <TextBlock Text="⚙ MTS" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
                 <Rectangle Height="1" Fill="#AAA" Margin="0,0,0,10"/>
 
-                <TextBlock FontSize="14" Margin="0,5">
+                <!--<TextBlock FontSize="14" Margin="0,5">
                         <Run Text="📊 "/>
                         <Run Text="{x:Static properties:Resources.MainViewDashboardsMenu}"/>
-                </TextBlock>
+                </TextBlock>-->
+                <Button Content="{x:Static properties:Resources.MainViewDashboardsMenu}"
+FontSize="13" Margin="0,0,0,2" Padding="0"
+Background="Transparent" BorderThickness="0"
+HorizontalAlignment="Left"
+Cursor="Hand"
+Command="{Binding DashboardsCommand}" />
+
                 <TextBlock FontSize="14" Margin="0,5">
                         <Run Text="📝 "/>
                         <Run Text="{x:Static properties:Resources.MainViewReportingMenu}"/>

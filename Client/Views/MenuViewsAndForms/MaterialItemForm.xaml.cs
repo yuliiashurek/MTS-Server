@@ -60,7 +60,6 @@ namespace Client.Views
             var suppliers = await _supplierService.GetSuppliersAsync();
             Suppliers = new ObservableCollection<Supplier>(suppliers);
 
-            // Тепер, коли словники завантажені, встановлюємо вибрані значення:
             if (existing != null)
             {
                 SelectedMeasurementUnit = MeasurementUnits.FirstOrDefault(x => x.Id == existing.MeasurementUnitId);
@@ -68,7 +67,6 @@ namespace Client.Views
                 SelectedSupplier = Suppliers.FirstOrDefault(x => x.Id == existing.SupplierId);
             }
 
-            // Перекидаємо DataContext заново
             DataContext = null;
             DataContext = this;
         }
