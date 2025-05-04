@@ -9,6 +9,9 @@ using System.Text;
 using Server.Shared.DTOs;
 using Server.Data.Repositories.Interfaces;
 using Server.Data.Repositories.Implementations;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Server.API.Helpers;
 
 
 
@@ -41,6 +44,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpContextAccessor();
+var customAssemblyLoadContext = new CustomAssemblyLoadContext();
+var wkhtmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Libraries/wkhtmltox", "libwkhtmltox.dll");
+customAssemblyLoadContext.LoadUnmanagedLibrary(wkhtmlPath);
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddScoped<PdfService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 
 builder.Services.AddScoped<IBaseService<CategoryDto>, CategoryService>();
