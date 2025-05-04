@@ -14,6 +14,9 @@ namespace Server.Data.Entities
         public string FullName { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
 
+        public string CityForDocs { get; set; } = string.Empty;
+        public string FioForDocs { get; set; } = string.Empty;
+
         public ICollection<User> Users { get; set; }
     }
 

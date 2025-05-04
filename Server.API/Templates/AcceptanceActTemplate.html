@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; font-size: 12pt; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        td, th { border: 1px solid black; padding: 4px; }
+        h2 { text-align: center; }
+        .section { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2>АКТ ПРИЙМАННЯ-ПЕРЕДАЧІ ТОВАРУ</h2>
+
+    <p><strong>м. {City} «{Day}» {Month} {Year} року</strong></p>
+
+    <p>Цей Акт приймання-передачі Товару складений Сторонами згідно Договору № <strong>{ContractNumber}</strong> від «{Day}» {Month} {Year} року між:</p>
+
+    <p><strong>ТОВ «{BuyerName}»</strong>, код ЄДРПОУ {BuyerEDRPOU}, місцезнаходження: {BuyerAddress}, надалі – «<strong>Покупець</strong>»,</p>
+    <p><strong>ТОВ «{SupplierName}»</strong>, код ЄДРПОУ {SupplierEDRPOU}, місцезнаходження: {SupplierAddress}, надалі – «<strong>Постачальник</strong>» склали цей Акт про наступне:</p>
+
+    <p class="section">1. Відповідно до умов Договору № {ContractNumber}, Постачальник передав, а Покупець прийняв наступний Товар:</p>
+
+    <table>
+        <tr>
+            <th>№</th>
+            <th>Найменування Товару</th>
+            <th>Одиниця виміру</th>
+            <th>Кількість</th>
+            <th>Ціна без ПДВ</th>
+            <th>Ціна з ПДВ</th>
+            <th>Сума без ПДВ</th>
+            <th>Сума з ПДВ</th>
+        </tr>
+        {Items}
+    </table>
+
+    <p class="section">Загальна вартість: <strong>{TotalWithoutVat:F2}</strong> грн.</p>
+    <p>ПДВ: <strong>{TotalVat:F2}</strong> грн.</p>
+    <p>Загалом з ПДВ: <strong>{TotalWithVat:F2}</strong> грн.</p>
+
+    <p class="section">2. Акт набуває чинності з моменту підписання.</p>
+
+    <p><strong>За Постачальника:</strong><br/>ПІБ: {SupplierContactPerson}<br/>Підпис: ____________</p>
+    <p><strong>За Покупця:</strong><br/>ПІБ: {BuyerFio}<br/>Підпис: ____________</p>
+</body>
+</html>

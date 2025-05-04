@@ -56,52 +56,84 @@ namespace Server.API.Controllers
 
 
             var contractNumber = string.IsNullOrWhiteSpace(request.ContractNumber)
-                ? $"A-{DateTime.Now:yyyy}-{new Random().Next(1000, 9999)}"
+                ? "__________"
                 : request.ContractNumber;
 
-            return BuildHtml(contractNumber, supplier, movements);
+            return await GetHtmlFromTemplateAsync(contractNumber, supplier, movements);
         }
 
-
-        private string BuildHtml(string contractNumber, Supplier supplier, List<MaterialMovement> movements)
+        private async Task<string> GetHtmlFromTemplateAsync(string contractNumber, Supplier supplier, List<MaterialMovement> movements)
         {
-            var sb = new StringBuilder();
+            var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "AcceptanceActTemplate.html");
+            var template = await System.IO.File.ReadAllTextAsync(templatePath);
 
-            sb.AppendLine("<html>");
-            sb.AppendLine("<head>");
-            sb.AppendLine("<meta charset=\"utf-8\">");
+            var year = DateTime.Now.Year;
+            var buyerName = supplier.Organization?.Name ?? "";
+            var buyerCode = supplier.Organization?.EdrpouCode ?? "";
+            var buyerAddress = supplier.Organization?.Address ?? "";
 
-            // Підключаємо шрифт Google Fonts
-            sb.AppendLine("<style>");
-            sb.AppendLine("@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');");
-            sb.AppendLine("body { font-family: 'Noto Sans', sans-serif; font-size: 12pt; }");
-            sb.AppendLine("table { border-collapse: collapse; width: 100%; }");
-            sb.AppendLine("td, th { border: 1px solid black; padding: 4px; }");
-            sb.AppendLine("h2 { text-align: center; }");
-            sb.AppendLine("</style>");
-
-            sb.AppendLine("</head>");
-            sb.AppendLine("<body>");
-
-            sb.AppendLine($"<h2>Акт приймання-передачі товару</h2>");
-            sb.AppendLine($"<p>Договір № {contractNumber}</p>");
-            sb.AppendLine($"<p>Постачальник: {supplier.Name}, ЄДРПОУ: {supplier.EdrpouCode}, Адреса: {supplier.Address}</p>");
-
-            sb.AppendLine("<table>");
-            sb.AppendLine("<tr><th>№</th><th>Назва</th><th>Од.вим.</th><th>К-сть</th><th>Ціна</th><th>Сума</th></tr>");
-
+            var sbRows = new StringBuilder();
             int index = 1;
+            decimal total = 0;
+            const decimal VAT_RATE = 0.2m;
+
             foreach (var m in movements)
             {
+                var priceWithVat = m.PricePerUnit * (1 + VAT_RATE);
                 var sum = m.Quantity * m.PricePerUnit;
-                sb.AppendLine($"<tr><td>{index++}</td><td>{m.MaterialItem.Name}</td><td>{m.MaterialItem.MeasurementUnit.ShortName}</td><td>{m.Quantity}</td><td>{m.PricePerUnit:F2}</td><td>{sum:F2}</td></tr>");
+                var sumWithVat = m.Quantity * priceWithVat;
+                total += sum;
+
+                sbRows.AppendLine($"""
+            <tr>
+                <td>{index++}</td>
+                <td>{m.MaterialItem.Name}</td>
+                <td>{m.MaterialItem.MeasurementUnit.ShortName}</td>
+                <td>{m.Quantity}</td>
+                <td>{m.PricePerUnit:F2}</td>
+                <td>{priceWithVat:F2}</td>
+                <td>{sum:F2}</td>
+                <td>{sumWithVat:F2}</td>
+            </tr>
+        """);
             }
 
-            sb.AppendLine("</table>");
-            sb.AppendLine("</body></html>");
+            var totalVat = total * VAT_RATE;
+            var totalWithVat = total + totalVat;
 
-            return sb.ToString();
+            var today = DateTime.Today;
+            var city = supplier.Organization?.CityForDocs;
+            var day = today.Day.ToString("D2");
+            var ukCulture = new System.Globalization.CultureInfo("uk-UA");
+            var month = ukCulture.DateTimeFormat.GetMonthName(today.Month); 
+            var monthGenitive = ukCulture.DateTimeFormat.MonthGenitiveNames[today.Month - 1]; 
+
+
+
+            string F15(string? val) => string.IsNullOrWhiteSpace(val) ? "_______________" : val;
+            string F30(string? val) => string.IsNullOrWhiteSpace(val) ? "______________________________" : val;
+            string F50(string? val) => string.IsNullOrWhiteSpace(val) ? "__________________________________________________" : val;
+
+            return template
+                .Replace("{Year}", year.ToString())
+                .Replace("{ContractNumber}", F15(contractNumber))
+                .Replace("{BuyerName}", F30(buyerName))
+                .Replace("{BuyerEDRPOU}", F15(buyerCode))
+                .Replace("{BuyerAddress}", F50(buyerAddress))
+                .Replace("{SupplierName}", F30(supplier.Name))
+                .Replace("{SupplierEDRPOU}", F15(supplier.EdrpouCode))
+                .Replace("{SupplierAddress}", F50(supplier.Address))
+                .Replace("{Items}", sbRows.ToString())
+                .Replace("{TotalWithoutVat:F2}", total.ToString("F2"))
+                .Replace("{TotalVat:F2}", totalVat.ToString("F2"))
+                .Replace("{TotalWithVat:F2}", totalWithVat.ToString("F2"))
+                .Replace("{City}", F15(city))
+                .Replace("{SupplierContactPerson}", F15(supplier.ContactPerson))
+                .Replace("{BuyerFio}", F15(supplier.Organization?.FioForDocs))
+                .Replace("{Day}", day)
+                .Replace("{Month}", monthGenitive);
         }
+
 
     }
 }
