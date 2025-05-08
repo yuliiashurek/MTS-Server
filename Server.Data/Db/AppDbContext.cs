@@ -16,6 +16,7 @@ namespace Server.Data.Db
         public DbSet<User> Users { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<MaterialItem> MaterialItems { get; set; }
+        public DbSet<MaterialNotificationHistory> MaterialNotificationsHistory { get; set; }
         public DbSet<MaterialMovement> MaterialMovements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

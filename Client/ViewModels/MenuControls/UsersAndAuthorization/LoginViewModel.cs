@@ -14,6 +14,7 @@ namespace Client
         [ObservableProperty] private string organizationName;
         [ObservableProperty] private string adminEmail;
         [ObservableProperty] private string adminPassword;
+        private UserApiService _userApiService = new UserApiService(App.SharedHttpClient);
 
         [RelayCommand]
         public async Task LoginAsync()
@@ -25,11 +26,12 @@ namespace Client
         public async Task RegisterAsync()
         {
             ErrorMessage = null;
+
             var result = await App.AuthService.RegisterOrganizationAsync(new RegisterOrganizationDto
             {
                 OrganizationName = OrganizationName,
                 AdminEmail = AdminEmail,
-                AdminPassword = AdminPassword
+                AdminPassword = string.Empty
             });
 
             if (!result)
@@ -38,9 +40,10 @@ namespace Client
             }
             else
             {
-                Growl.Success("Організацію створено");
+                Growl.Success("Організацію створено, щроб увійти підтвердіть пошту, створіть пароль і увійдіть");
             }
-            await loginAsync(AdminEmail, AdminPassword);
+
+            //await loginAsync(AdminEmail, AdminPassword);
         }
 
         private async Task loginAsync(string email, string password)

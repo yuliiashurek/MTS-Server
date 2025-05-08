@@ -75,17 +75,36 @@ public class AuthService : IAuthService
             Users = new List<User>()
         };
 
-        var admin = new User
+        //var admin = new User
+        //{
+        //    Id = Guid.NewGuid(),
+        //    Email = dto.AdminEmail,
+        //    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword),
+        //    Organization = organization,
+        //    Role = "Admin"
+        //};
+
+        await _unitOfWork.Organizations.AddAsync(organization);
+
+
+        var token = Guid.NewGuid().ToString();
+        var user = new User
         {
             Id = Guid.NewGuid(),
             Email = dto.AdminEmail,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword),
-            Organization = organization,
-            Role = "Admin"
+            OrganizationId = organization.Id,
+            Role = "Admin",
+            PasswordResetToken = token,
+            PasswordResetTokenExpiryTime = DateTime.UtcNow.AddHours(24)
         };
 
-        await _unitOfWork.Organizations.AddAsync(organization);
-        await _unitOfWork.Users.AddAsync(admin);
+        await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+
+        var resetUrl = $"https://localhost:7299/set-password.html?token={token}";
+        await _emailService.SendAsync(dto.AdminEmail, "Ваш акаунт у системі", $"Перейдіть за посиланням: {resetUrl}");
+
+        //await _unitOfWork.Users.AddAsync(admin);
         await _unitOfWork.SaveChangesAsync();
         return true;
     }
@@ -102,7 +121,7 @@ public class AuthService : IAuthService
             Id = Guid.NewGuid(),
             Email = dto.Email,
             OrganizationId = inviter.OrganizationId,
-            Role = "Employee",
+            Role = dto.Role,
             PasswordResetToken = token,
             PasswordResetTokenExpiryTime = DateTime.UtcNow.AddHours(24)
         };

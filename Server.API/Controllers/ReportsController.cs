@@ -134,6 +134,118 @@ namespace Server.API.Controllers
                 .Replace("{Month}", monthGenitive);
         }
 
+        [HttpPost("generate-transfer-act")]
+        public async Task<IActionResult> GenerateTransferAct([FromBody] TransferActRequestDto request)
+        {
+            var html = await GetTransferHtml(request);
+            var pdfBytes = _pdfService.GeneratePdfFromHtml(html);
+            return File(pdfBytes, "application/pdf", "TransferAct.pdf");
+        }
+
+        [HttpPost("generate-transfer-html-preview")]
+        public async Task<IActionResult> GenerateTransferHtmlPreview([FromBody] TransferActRequestDto request)
+        {
+            var html = await GetTransferHtml(request);
+            return Ok(html);
+        }
+
+        private async Task<string> GetTransferHtml(TransferActRequestDto request)
+        {
+            var orgId = await _context.Recipients
+                .Where(r => r.Id == request.RecipientId)
+                .Select(r => r.OrganizationId)
+                .FirstOrDefaultAsync();
+
+            var organization = await _context.Organizations.FirstOrDefaultAsync(o => o.Id == orgId);
+            var recipient = await _context.Recipients.FirstOrDefaultAsync(r => r.Id == request.RecipientId);
+
+            var movements = await _context.MaterialMovements
+                .Include(m => m.MaterialItem)
+                    .ThenInclude(i => i.MeasurementUnit)
+                .Where(m =>
+                    m.RecipientId == request.RecipientId &&
+                    m.MovementType == 1 && // Тип "передача"
+                    m.MovementDate >= request.DateFrom &&
+                    m.MovementDate <= request.DateTo)
+                .ToListAsync();
+
+            var contractNumber = string.IsNullOrWhiteSpace(request.ContractNumber)
+                ? "__________"
+                : request.ContractNumber;
+
+            return await GetTransferHtmlFromTemplate(contractNumber, organization, recipient, movements);
+        }
+
+        private async Task<string> GetTransferHtmlFromTemplate(string contractNumber, Organization organization, Recipient recipient, List<MaterialMovement> movements)
+        {
+            var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "AcceptanceActTemplate.html");
+            var template = await System.IO.File.ReadAllTextAsync(templatePath);
+
+            var year = DateTime.Now.Year;
+            var orgName = organization?.Name ?? "";
+            var orgCode = organization?.EdrpouCode ?? "";
+            var orgAddress = organization?.Address ?? "";
+            var orgFio = organization?.FioForDocs ?? "";
+            var city = organization?.CityForDocs ?? "";
+
+            var sbRows = new StringBuilder();
+            int index = 1;
+            decimal total = 0;
+            const decimal VAT_RATE = 0.2m;
+
+            foreach (var m in movements)
+            {
+                var priceWithVat = m.PricePerUnit * (1 + VAT_RATE);
+                var sum = m.Quantity * m.PricePerUnit;
+                var sumWithVat = m.Quantity * priceWithVat;
+                total += sum;
+
+                sbRows.AppendLine($"""
+            <tr>
+                <td>{index++}</td>
+                <td>{m.MaterialItem.Name}</td>
+                <td>{m.MaterialItem.MeasurementUnit.ShortName}</td>
+                <td>{m.Quantity}</td>
+                <td>{m.PricePerUnit:F2}</td>
+                <td>{priceWithVat:F2}</td>
+                <td>{sum:F2}</td>
+                <td>{sumWithVat:F2}</td>
+            </tr>
+        """);
+            }
+
+            var totalVat = total * VAT_RATE;
+            var totalWithVat = total + totalVat;
+            var today = DateTime.Today;
+            var day = today.Day.ToString("D2");
+            var ukCulture = new System.Globalization.CultureInfo("uk-UA");
+            var monthGenitive = ukCulture.DateTimeFormat.MonthGenitiveNames[today.Month - 1];
+
+            string F15(string? val) => string.IsNullOrWhiteSpace(val) ? "_______________" : val;
+            string F30(string? val) => string.IsNullOrWhiteSpace(val) ? "______________________________" : val;
+            string F50(string? val) => string.IsNullOrWhiteSpace(val) ? "__________________________________________________" : val;
+
+            return template
+                .Replace("{Year}", year.ToString())
+                .Replace("{ContractNumber}", F15(contractNumber))
+                .Replace("{SupplierName}", F30(orgName))
+                .Replace("{SupplierEDRPOU}", F15(orgCode))
+                .Replace("{SupplierAddress}", F50(orgAddress))
+                .Replace("{BuyerName}", F30(recipient.Name))
+                .Replace("{BuyerEDRPOU}", F15(recipient.Edrpou))
+                .Replace("{BuyerAddress}", F50(recipient.Address))
+                .Replace("{Items}", sbRows.ToString())
+                .Replace("{TotalWithoutVat:F2}", total.ToString("F2"))
+                .Replace("{TotalVat:F2}", totalVat.ToString("F2"))
+                .Replace("{TotalWithVat:F2}", totalWithVat.ToString("F2"))
+                .Replace("{City}", F15(city))
+                .Replace("{SupplierContactPerson}", F15(orgFio))
+                .Replace("{BuyerFio}", F15(recipient.ContactPerson))
+                .Replace("{Day}", day)
+                .Replace("{Month}", monthGenitive);
+        }
+
+
 
     }
 }

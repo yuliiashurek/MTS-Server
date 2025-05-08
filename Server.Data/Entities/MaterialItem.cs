@@ -25,6 +25,15 @@ namespace Server.Data.Entities
 
         public Guid SupplierId { get; set; }
         public Supplier Supplier { get; set; } = null!;
+
+        public string NotificationEmails { get; set; } = string.Empty;
+
+        public List<string> GetNotificationEmails()
+        {
+            return NotificationEmails
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .ToList();
+        }
     }
 }
 

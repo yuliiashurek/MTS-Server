@@ -4,6 +4,7 @@ using Server.Shared.DTOs;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -41,23 +42,50 @@ namespace Client.Views
             MovementTypeComboBox.SelectedIndex = 0;
             MovementTypeComboBox.SelectionChanged += (s, e) => UpdateVisibility();
 
-            Loaded += (_, _) => UpdateVisibility();
+            Loaded += async (_, _) => await LoadAsync(movement);
+        }
 
-            if (movement != null)
-            {
-                MaterialComboBox.SelectedItem = _materials.FirstOrDefault(m => m.Id == movement.MaterialItemId);
-                WarehouseComboBox.SelectedItem = _warehouses.FirstOrDefault(w => w.Id == movement.WarehouseId);
-                MovementTypeComboBox.SelectedItem = ((MovementTypeItem[])MovementTypeComboBox.ItemsSource)
-                    .FirstOrDefault(x => x.Type == movement.MovementType);
+        private async Task LoadAsync(MaterialMovement? movement)
+        {
+            UpdateVisibility();
 
-                QuantityTextBox.Text = movement.Quantity.ToString();
-                PriceTextBox.Text = movement.PricePerUnit.ToString();
-                MovementDatePicker.SelectedDate = movement.MovementDate;
-                ExpirationDatePicker.SelectedDate = movement.ExpirationDate;
-            }
-            else
+            if (movement == null)
             {
                 MovementDatePicker.SelectedDate = DateTime.Now;
+                return;
+            }
+
+            MaterialComboBox.SelectedItem = _materials.FirstOrDefault(m => m.Id == movement.MaterialItemId);
+            WarehouseComboBox.SelectedItem = _warehouses.FirstOrDefault(w => w.Id == movement.WarehouseId);
+            MovementTypeComboBox.SelectedItem = ((MovementTypeItem[])MovementTypeComboBox.ItemsSource)
+                .FirstOrDefault(x => x.Type == movement.MovementType);
+
+            QuantityTextBox.Text = movement.Quantity.ToString();
+            PriceTextBox.Text = movement.PricePerUnit.ToString();
+            MovementDatePicker.SelectedDate = movement.MovementDate;
+            ExpirationDatePicker.SelectedDate = movement.ExpirationDate;
+
+            if (movement.MovementType == 1 && movement.RecipientId.HasValue)
+            {
+                try
+                {
+                    var recipient = await _recipientApi.GetByIdAsync(movement.RecipientId.Value);
+                    if (recipient != null)
+                    {
+                        RecipientNameTextBox.Text = recipient.Name;
+                        RecipientEdrpouTextBox.Text = recipient.Edrpou;
+                        RecipientAddressTextBox.Text = recipient.Address;
+                        RecipientContactTextBox.Text = recipient.ContactPerson;
+
+                        RecipientEdrpouTextBox.IsEnabled = false;
+                        RecipientAddressTextBox.IsEnabled = false;
+                        RecipientContactTextBox.IsEnabled = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Не вдалося завантажити отримувача: " + ex.Message);
+                }
             }
         }
 
@@ -73,8 +101,6 @@ namespace Client.Views
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }
-
-
 
         private async void RecipientNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

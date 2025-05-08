@@ -111,6 +111,13 @@ Command="{Binding MaterialItemsCommand}" />
 
             <!-- Нижня частина -->
             <StackPanel Margin="10" Grid.Row="1">
+                <Button Content="👤 Організація"
+    FontSize="13" Margin="0,4" Padding="0"
+    Background="Transparent" BorderThickness="0"
+    HorizontalAlignment="Left"
+    Cursor="Hand"
+    Command="{Binding OrganizationCommand}" 
+    Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibility}}"/>
                 <Button Content="👤 Користувачі"
                     FontSize="13" Margin="0,4" Padding="0"
                     Background="Transparent" BorderThickness="0"

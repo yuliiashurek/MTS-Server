@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Data.Db;
 
@@ -11,9 +12,11 @@ using Server.Data.Db;
 namespace Server.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250508111742_AddMaterialNotifications")]
+    partial class AddMaterialNotifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,37 +134,6 @@ namespace Server.Data.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("MaterialMovements", (string)null);
-                });
-
-            modelBuilder.Entity("Server.Data.Entities.MaterialNotificationHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("MaterialItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialItemId");
-
-                    b.ToTable("MaterialNotificationsHistory");
                 });
 
             modelBuilder.Entity("Server.Data.Entities.MeasurementUnit", b =>
@@ -420,17 +392,6 @@ namespace Server.Data.Migrations
                     b.Navigation("Recipient");
 
                     b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("Server.Data.Entities.MaterialNotificationHistory", b =>
-                {
-                    b.HasOne("Server.Data.Entities.MaterialItem", "MaterialItem")
-                        .WithMany()
-                        .HasForeignKey("MaterialItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MaterialItem");
                 });
 
             modelBuilder.Entity("Server.Data.Entities.Supplier", b =>

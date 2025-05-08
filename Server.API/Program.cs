@@ -58,6 +58,7 @@ builder.Services.AddScoped<IBaseService<MeasurementUnitDto>, MeasurementUnitServ
 builder.Services.AddScoped<IBaseService<MaterialItemDto>, MaterialItemsService>();
 builder.Services.AddScoped<IBaseService<MaterialMovementDto>, MaterialMovementsService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
 
 builder.Services.AddScoped<ISupplierService, SupplierService>();

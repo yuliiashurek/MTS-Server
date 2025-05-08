@@ -124,7 +124,14 @@ namespace Client
         private void Reporting()
         {
             Title = "Звітність";
-            CurrentContent = new ReportsView();
+            CurrentContent = new AllReportsControl();
+        }
+
+        [RelayCommand]
+        private void Organization()
+        {
+            Title = "Моя організація";
+            CurrentContent = new OrganizationInfoControl();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Server.Data.UnitOfWork
         private OrganizationRepository? _organizationRepository;
         private MaterialItemRepository? _materialItemRepository;
         private MaterialMovementRepository? _materialMovementRepository;
+        private MaterialNotificationHistoryRepository? _materialNotificationHistoryRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -34,6 +35,7 @@ namespace Server.Data.UnitOfWork
         public IRepository<Warehouse> Warehouses => _warehousesRepository ??= new WarehouseRepository(_context);
         public IRepository<MeasurementUnit> MeasurementUnits => _measurementUnitRepository ??= new MeasurementUnitRepository(_context);
         public IRepository<MaterialItem> MaterialItems => _materialItemRepository ??= new MaterialItemRepository(_context);
+        public IRepository<MaterialNotificationHistory> MaterialNotificationsHistory => _materialNotificationHistoryRepository ??= new MaterialNotificationHistoryRepository(_context);
         public IRepository<Organization> Organizations => _organizationRepository ??= new OrganizationRepository(_context);
         public IUserRepository Users { get; }
 
