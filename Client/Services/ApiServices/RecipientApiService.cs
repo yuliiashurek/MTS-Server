@@ -1,4 +1,5 @@
-﻿using Server.Shared.DTOs;
+﻿using Client.Models;
+using Server.Shared.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,18 @@ namespace Client.Services.ApiServices
 
             return await response.Content.ReadFromJsonAsync<RecipientDto>();
         }
+
+        public async Task<List<Recipient>> GetRecipientsAsync()
+        {
+            return await _http.GetFromJsonAsync<List<Recipient>>("recipients") ?? new();
+        }
+
+        public async Task<Recipient?> GetByIdAsync(Guid id)
+        {
+            return await _http.GetFromJsonAsync<Recipient>($"recipients/{id}");
+        }
+
+
     }
 
 }

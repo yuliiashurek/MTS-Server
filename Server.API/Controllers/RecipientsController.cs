@@ -17,6 +17,13 @@ namespace Server.API.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<RecipientDto>>> GetAll()
+        {
+            var recipients = await _service.GetAllAsync();
+            return Ok(recipients);
+        }
+
         [HttpGet("by-name/{name}")]
         public async Task<ActionResult<RecipientDto?>> GetByName(string name)
         {
@@ -30,6 +37,13 @@ namespace Server.API.Controllers
             var result = await _service.CreateAsync(dto);
             return Ok(result);
         }
-    }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RecipientDto?>> GetById(Guid id)
+        {
+            var recipient = await _service.GetByIdAsync(id);
+            return recipient is null ? NotFound() : Ok(recipient);
+        }
+
+    }
 }

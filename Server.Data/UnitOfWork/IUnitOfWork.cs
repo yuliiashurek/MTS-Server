@@ -16,6 +16,7 @@ namespace Server.Data.UnitOfWork
         IRepository<Warehouse> Warehouses { get; }
         IRepository<MeasurementUnit> MeasurementUnits { get; }
         IRepository<MaterialItem> MaterialItems { get; }
+        IRepository<MaterialNotificationHistory> MaterialNotificationsHistory { get; }
         IRepository<MaterialMovement> MaterialMovements { get; }
         IUserRepository Users { get; }
         IRepository<Organization> Organizations { get; }

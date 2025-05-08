@@ -14,6 +14,7 @@ namespace Client
             CreateMap<MeasurementUnitDto, MeasurementUnit>().ReverseMap();
             CreateMap<MaterialItemDto, MaterialItem>().ReverseMap();
             CreateMap<MaterialMovementDto, MaterialMovement>().ReverseMap();
+            CreateMap<OrganizationInfoDto, Organization>().ReverseMap();
         }
     }
 }

@@ -11,6 +11,10 @@ namespace Server.Core.Interfaces
     {
         Task<RecipientDto?> GetByNameAsync(string name);
         Task<RecipientDto> CreateAsync(RecipientDto dto);
+        Task<List<RecipientDto>> GetAllAsync();
+
+        Task<RecipientDto> GetByIdAsync(Guid id);
+
     }
 
 }

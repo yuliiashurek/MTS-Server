@@ -37,8 +37,8 @@
                     <TextBlock Text="Email адміністратора:" Margin="0,10,0,0"/>
                     <TextBox Text="{Binding AdminEmail}" Height="30" />
 
-                    <TextBlock Text="Пароль адміністратора:" Margin="0,10,0,0"/>
-                    <PasswordBox Height="30" PasswordChanged="AdminPasswordChanged" />
+                    <!--<TextBlock Text="Пароль адміністратора:" Margin="0,10,0,0"/>
+                    <PasswordBox Height="30" PasswordChanged="AdminPasswordChanged" />-->
 
                     <Button Content="Зареєструвати" Margin="0,15,0,0" Height="30"
                             Command="{Binding RegisterCommand}" />

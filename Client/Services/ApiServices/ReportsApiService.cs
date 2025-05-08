@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Client.Services.ApiServices
@@ -50,6 +51,41 @@ namespace Client.Services.ApiServices
                 ContractNumber = contractNumber
             };
             return request;
+        }
+
+
+        public async Task<byte[]?> GenerateTransferActAsync(Guid recipientId, DateTime dateFrom, DateTime dateTo, string? contractNumber)
+        {
+            var request = new
+            {
+                RecipientId = recipientId,
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                ContractNumber = contractNumber
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("reports/generate-transfer-act", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+
+            return null;
+        }
+
+        public async Task<string?> GetTransferActHtmlPreviewAsync(Guid recipientId, DateTime dateFrom, DateTime dateTo, string? contractNumber)
+        {
+            var request = new
+            {
+                RecipientId = recipientId,
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                ContractNumber = contractNumber
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("reports/generate-transfer-html-preview", request);
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
