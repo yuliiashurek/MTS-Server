@@ -10,7 +10,7 @@ namespace Client.ViewModels
 {
     public partial class MaterialItemsViewModel : ObservableObject
     {
-        private readonly MaterialItemApiService _apiService = new(App.SharedHttpClient);
+        private readonly MaterialItemApiService _materialItemsApiService = new(App.SharedHttpClient);
         private readonly SupplierApiService _supplierApiService = new(App.SharedHttpClient);
         private readonly CategoryApiService _categoryApiService = new(App.SharedHttpClient);
         private readonly MeasurementUnitApiService _unitApiService = new(App.SharedHttpClient);
@@ -38,7 +38,7 @@ namespace Client.ViewModels
         public MeasurementUnit? SelectedMeasurementUnit =>
             SelectedMaterialItem == null ? null : MeasurementUnits.FirstOrDefault(x => x.Id == SelectedMaterialItem.MeasurementUnitId);
 
-        public Category? SelectedCategory =>
+        public INamedEntity? SelectedCategory =>
             SelectedMaterialItem == null ? null : Categories.FirstOrDefault(x => x.Id == SelectedMaterialItem.CategoryId);
 
         public Supplier? SelectedSupplier =>
@@ -55,7 +55,7 @@ namespace Client.ViewModels
         {
             try
             {
-                _allMaterials = (await _apiService.GetAllAsync()).ToList();
+                _allMaterials = (await _materialItemsApiService.GetAllAsync()).ToList();
                 MaterialItems = new ObservableCollection<MaterialItem>(_allMaterials);
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Client.ViewModels
             if (form.ShowDialog() == true)
             {
                 var newItem = form.MaterialItem;
-                await _apiService.AddAsync(newItem);
+                await _materialItemsApiService.AddAsync(newItem);
                 _allMaterials.Add(newItem);
                 MaterialItems.Add(newItem);
             }
@@ -86,7 +86,7 @@ namespace Client.ViewModels
             if (form.ShowDialog() == true)
             {
                 var updated = form.MaterialItem;
-                await _apiService.UpdateAsync(updated);
+                await _materialItemsApiService.UpdateAsync(updated);
                 var index = _allMaterials.IndexOf(selected);
                 if (index >= 0) _allMaterials[index] = updated;
                 MaterialItems = new ObservableCollection<MaterialItem>(_allMaterials);
@@ -101,7 +101,7 @@ namespace Client.ViewModels
             var confirm = MessageBox.Show($"Ви впевнені, що хочете видалити матеріал '{selected.Name}'?", "Підтвердження видалення", MessageBoxButton.YesNo);
             if (confirm == MessageBoxResult.Yes)
             {
-                await _apiService.DeleteAsync(selected.Id);
+                await _materialItemsApiService.DeleteAsync(selected.Id);
                 _allMaterials.Remove(selected);
                 MaterialItems.Remove(selected);
             }

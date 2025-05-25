@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:Client.ViewModels"
              xmlns:local="clr-namespace:Client.Helpers"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:properties="clr-namespace:Client.Properties"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:MaterialMovementViewModel}">
 
@@ -29,9 +30,9 @@
     <DockPanel Margin="20">
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Content="➕ Додати" Command="{Binding AddMaterialMovementCommand}" Width="120" Margin="0,0,10,0"/>
-            <Button Content="🔄 Оновити" Command="{Binding LoadAllDataCommand}" Width="120"/>
-            <Button Content="⬇️ Списати за Barcode" Command="{Binding WriteOffByBarcodeCommand}" Width="160" Margin="10,0,0,0"/>
+            <Button Content="{x:Static properties:Resources.PlusAdd}" Command="{Binding AddMaterialMovementCommand}" Width="120" Margin="0,0,10,0"/>
+            <Button Content="{x:Static properties:Resources.RefreshWithIcon}" Command="{Binding LoadAllDataCommand}" Width="120"/>
+            <Button Content="{x:Static properties:Resources.MaterialMovementsWriteOffByBarcode}" Command="{Binding WriteOffByBarcodeCommand}" Width="180" Margin="10,0,0,0"/>
 
         </StackPanel>
 
@@ -46,21 +47,21 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <TextBlock Text="Категорія" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmCategory}" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
                 <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
                           ItemsSource="{Binding Categories}"
                           SelectedItem="{Binding SelectedCategoryFilter, Mode=TwoWay}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2">
-                <TextBlock Text="Склад" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmWarehouse}" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
                 <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
                           ItemsSource="{Binding Warehouses}"
                           SelectedItem="{Binding SelectedWarehouseFilter, Mode=TwoWay}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="4">
-                <TextBlock Text="Постачальник" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmSupplier}" FontSize="12" FontWeight="Bold" Margin="0,0,0,2" />
                 <ComboBox Width="200" IsEditable="True" DisplayMemberPath="Name"
                           ItemsSource="{Binding Suppliers}"
                           SelectedItem="{Binding SelectedSupplierFilter, Mode=TwoWay}"/>
@@ -89,7 +90,7 @@
                       Margin="0">
                 <!-- Стовпці -->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Матеріал" Width="2*">
+                    <DataGridTemplateColumn Header="{x:Static properties:Resources.MmMaterial}" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock>
@@ -103,7 +104,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Склад" Width="2*">
+                    <DataGridTemplateColumn Header="{x:Static properties:Resources.MmWarehouse}" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock>
@@ -117,11 +118,11 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Рух" Binding="{Binding MovementType, Converter={StaticResource MovementTypeToArrowConverter}}" />
-                    <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}" Width="1*" />
-                    <DataGridTextColumn Header="Ціна" Binding="{Binding PricePerUnit}" Width="1*" />
-                    <DataGridTextColumn Header="Дата руху" Binding="{Binding MovementDate, StringFormat=d}" Width="1.5*" />
-                    <DataGridTextColumn Header="Expiration" Binding="{Binding ExpirationDate, StringFormat=d}" Width="1.5*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MmMovement}" Binding="{Binding MovementType, Converter={StaticResource MovementTypeToArrowConverter}}" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MmQuantity}" Binding="{Binding Quantity}" Width="1*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MmPrice}" Binding="{Binding PricePerUnit}" Width="1*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MmMovementDate}" Binding="{Binding MovementDate, StringFormat=d}" Width="1.5*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MmExpirationDate}" Binding="{Binding ExpirationDate, StringFormat=d}" Width="1.5*" />
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -152,7 +153,6 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Повернутий підвал -->
             <Border Grid.Row="1"
                     Margin="0,10,0,0"
                     Padding="15"
@@ -171,12 +171,23 @@
 
                     <!-- Ліва частина -->
                     <StackPanel Grid.Column="0" Margin="10,0,20,0" VerticalAlignment="Top">
-                        <TextBlock Text="Інформація про рух матеріалу" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
-                        <TextBlock Text="{Binding SelectedMaterialMovement.Quantity, StringFormat=Кількість: {0:F2}}" Margin="0,2" FontSize="13"/>
-                        <TextBlock Text="{Binding SelectedMaterialMovement.PricePerUnit, StringFormat=Ціна: {0:F2}}" Margin="0,2" FontSize="13"/>
-                        <TextBlock Text="{Binding SelectedMaterialMovement.MovementDate, StringFormat=Дата руху: {0:d}}" Margin="0,2" FontSize="13"/>
-                        <TextBlock Text="{Binding SelectedMaterialMovement.ExpirationDate, StringFormat=Expiration: {0:d}}" Margin="0,2" FontSize="13"/>
-                        <TextBlock Text="{Binding SelectedMaterialMovement.BarcodeNumber, StringFormat=Barcode: {0:d}}" Margin="0,2" FontSize="13"/>
+                        <TextBlock Text="{x:Static properties:Resources.MmInfoAboutMm}" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+
+                        <TextBlock Text="{Binding SelectedMaterialMovement.Quantity, StringFormat={x:Static properties:Resources.MmQuantityFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                        <TextBlock Text="{Binding SelectedMaterialMovement.PricePerUnit, StringFormat={x:Static properties:Resources.MmPricePerUnitFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                        <TextBlock Text="{Binding SelectedMaterialMovement.MovementDate, StringFormat={x:Static properties:Resources.MmMovementDateFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                        <TextBlock Text="{Binding SelectedMaterialMovement.ExpirationDate, StringFormat={x:Static properties:Resources.MmExpirationDateFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                        <TextBlock Text="{Binding SelectedMaterialMovement.BarcodeNumber, StringFormat={x:Static properties:Resources.MmBarcodeNumberFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <Binding Path="SelectedMaterialMovement.MovementType">
@@ -188,10 +199,11 @@
                         </TextBlock>
                     </StackPanel>
 
+
                     <!-- Центр -->
                     <StackPanel Grid.Column="1" Margin="10,0,20,0" VerticalAlignment="Top">
-                        <TextBlock Text="Інформація про матеріал" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
-                        <TextBlock Text="{Binding SelectedMaterialItem.Name, StringFormat=Назва: {0}}" Margin="0,2" FontSize="13"/>
+                        <TextBlock Text="{x:Static properties:Resources.MmInfoAboutMaterial}" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                        <TextBlock Text="{Binding SelectedMaterialItem.Name, StringFormat={x:Static properties:Resources.MmMaterial}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource MinStockWithUnitMultiConverter}">
@@ -213,15 +225,25 @@
 
                     <!-- Права частина -->
                     <StackPanel Grid.Column="2" Margin="10,0,10,0" VerticalAlignment="Top">
-                        <TextBlock Text="Постачальник" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                        <TextBlock Text="{x:Static properties:Resources.MmSupplier}" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
                         <Border Background="White" BorderBrush="#EEE" BorderThickness="1" CornerRadius="6" Padding="10">
                             <StackPanel>
-                                <TextBlock Text="{Binding SelectedSupplier.Name, StringFormat=Назва: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.ContactPerson, StringFormat=Контактна особа: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Phone, StringFormat=Телефон: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Email, StringFormat=Email: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Address, StringFormat=Адреса: {0}}" Margin="0,2" FontSize="13"/>
+                                <TextBlock Text="{Binding SelectedSupplier.Name, StringFormat={x:Static properties:Resources.MmSupplierNameFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.ContactPerson, StringFormat={x:Static properties:Resources.MmSupplierContactPersonFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Phone, StringFormat={x:Static properties:Resources.MmSupplierPhoneFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Email, StringFormat={x:Static properties:Resources.MmSupplierEmailFormat}}" 
+               Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Address, StringFormat={x:Static properties:Resources.MmSupplierAddressFormat}}" 
+               Margin="0,2" FontSize="13"/>
                             </StackPanel>
+
                         </Border>
                     </StackPanel>
                 </Grid>

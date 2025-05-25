@@ -1,9 +1,13 @@
-﻿<Window x:Class="Client.Views.MaterialMovementForm"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Рух матеріалу" Height="600" Width="500"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+﻿<hc:Window x:Class="Client.Views.MaterialMovementForm"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+         xmlns:properties="clr-namespace:Client.Properties"
+           Title="Рух матеріалу" SizeToContent="Height"
+            MinHeight="400"
+            Width="500"
+           WindowStartupLocation="CenterScreen"
+           ResizeMode="NoResize">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -14,58 +18,58 @@
         <ScrollViewer Grid.Row="0">
             <StackPanel>
                 <!-- Тип руху -->
-                <TextBlock Text="Тип руху:" Margin="0,0,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmMovementTypeIs}" Margin="0,0,0,2" />
                 <ComboBox x:Name="MovementTypeComboBox"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Type"
                           IsEditable="False" />
 
                 <!-- Матеріал -->
-                <TextBlock Text="Матеріал:" Margin="0,10,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmMaterialIs}" Margin="0,10,0,2" />
                 <ComboBox x:Name="MaterialComboBox"
                           DisplayMemberPath="Name"
                           IsEditable="True" />
 
                 <!-- Склад -->
                 <StackPanel x:Name="WarehouseRow">
-                    <TextBlock Text="Склад:" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmWarehouseIs}" Margin="0,10,0,2" />
                     <ComboBox x:Name="WarehouseComboBox"
                               DisplayMemberPath="Name"
                               IsEditable="True" />
                 </StackPanel>
 
                 <!-- Кількість -->
-                <TextBlock Text="Кількість:" Margin="0,10,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmQuantityIs}" Margin="0,10,0,2" />
                 <TextBox x:Name="QuantityTextBox" />
 
                 <!-- Ціна -->
                 <StackPanel x:Name="PriceRow">
-                    <TextBlock Text="Ціна за одиницю (тільки для IN):" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmPricePerUnitIs}" Margin="0,10,0,2" />
                     <TextBox x:Name="PriceTextBox" />
                 </StackPanel>
 
                 <!-- Expiration -->
                 <StackPanel x:Name="ExpirationRow">
-                    <TextBlock Text="Expiration Date (необов'язково):" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmExpirarationDateOptionalIs}" Margin="0,10,0,2" />
                     <DatePicker x:Name="ExpirationDatePicker" />
                 </StackPanel>
 
                 <!-- Дата руху -->
-                <TextBlock Text="Дата руху:" Margin="0,10,0,2" />
+                <TextBlock Text="{x:Static properties:Resources.MmMovementDateIs}" Margin="0,10,0,2" />
                 <DatePicker x:Name="MovementDatePicker" />
 
                 <!-- Отримувач -->
                 <StackPanel x:Name="RecipientPanel" Visibility="Collapsed">
-                    <TextBlock Text="Отримувач (назва):" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmRecipientNameIs}" Margin="0,10,0,2" />
                     <TextBox x:Name="RecipientNameTextBox" TextChanged="RecipientNameTextBox_TextChanged" />
 
-                    <TextBlock Text="ЄДРПОУ:" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmRecipientEdrpouIs}" Margin="0,10,0,2" />
                     <TextBox x:Name="RecipientEdrpouTextBox" />
 
-                    <TextBlock Text="Адреса:" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmRecipientAddressIs}" Margin="0,10,0,2" />
                     <TextBox x:Name="RecipientAddressTextBox" />
 
-                    <TextBlock Text="Контактна особа:" Margin="0,10,0,2" />
+                    <TextBlock Text="{x:Static properties:Resources.MmRecipientContactPersonIs}" Margin="0,10,0,2" />
                     <TextBox x:Name="RecipientContactTextBox" />
                 </StackPanel>
             </StackPanel>
@@ -76,4 +80,4 @@
             <Button Content="Скасувати" Width="100" Click="Cancel_Click" />
         </StackPanel>
     </Grid>
-</Window>
+</hc:Window>

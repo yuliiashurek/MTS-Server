@@ -67,70 +67,70 @@ namespace Client
         [RelayCommand]
         private void MyAccount()
         {
-            Title = "Мій аккаунт";
+            Title = Properties.Resources.MainViewMyAccountMenu;
             CurrentContent = new MyAccountControl();
         }
 
         [RelayCommand]
         private void Users()
         {
-            Title = "Користувачі";
+            Title = Properties.Resources.MainViewUsersMenu;
             CurrentContent = new UsersControl();
         }
 
         [RelayCommand]
         private void MeasurementUnits()
         {
-            Title = "Одиниці вимірювання";
+            Title = Properties.Resources.MainViewMeasurementUnitsMenu;
             CurrentContent = new MeasurementUnitsControl();
         }
 
         [RelayCommand]
         private void Categories()
         {
-            Title = "Категорії";
+            Title = Properties.Resources.MainViewCategoriesMenu;
             CurrentContent = new NamedEntitiesControl { DataContext = new CategoriesViewModel() };
         }
 
         [RelayCommand]
         private void Warehouses()
         {
-            Title = "Складські приміщення";
+            Title = Properties.Resources.MainViewWarehousesMenu;
             CurrentContent = new NamedEntitiesControl { DataContext = new WarehousesViewModel() };
         }
 
         [RelayCommand]
         private void MaterialItems()
         {
-            Title = "Матеріали";
+            Title = Properties.Resources.MainViewMaterialsMenu;
             CurrentContent = new MaterialItemsControl();
         }
 
         [RelayCommand]
         private void MaterialMovements()
         {
-            Title = "Рух матеріалів";
+            Title = Properties.Resources.MainViewMaterialMovements;
             CurrentContent = new MaterialMovementsControl();
         }
 
         [RelayCommand]
         private void Dashboards()
         {
-            Title = "Дашборди";
+            Title = Properties.Resources.MainViewDashboardsMenu;
             CurrentContent = new AllDashboardsControl();
         }
 
         [RelayCommand]
         private void Reporting()
         {
-            Title = "Звітність";
+            Title = Properties.Resources.MainViewReportingMenu;
             CurrentContent = new AllReportsControl();
         }
 
         [RelayCommand]
         private void Organization()
         {
-            Title = "Моя організація";
+            Title = Properties.Resources.MainViewOrganizationMenu;
             CurrentContent = new OrganizationInfoControl();
         }
     }

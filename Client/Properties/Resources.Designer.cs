@@ -61,11 +61,128 @@ namespace Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consumption Forecast.
+        /// </summary>
+        public static string AllDashboardsConsumptionForecast {
+            get {
+                return ResourceManager.GetString("AllDashboardsConsumptionForecast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Stock.
+        /// </summary>
+        public static string AllDashboardsCurrentStock {
+            get {
+                return ResourceManager.GetString("AllDashboardsCurrentStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CancelButton {
             get {
                 return ResourceManager.GetString("CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average/day.
+        /// </summary>
+        public static string DashboardAverageDailyUsage {
+            get {
+                return ResourceManager.GetString("DashboardAverageDailyUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string DashboardCategory {
+            get {
+                return ResourceManager.GetString("DashboardCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Stock.
+        /// </summary>
+        public static string DashboardCurrentStock {
+            get {
+                return ResourceManager.GetString("DashboardCurrentStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Stock:.
+        /// </summary>
+        public static string DashboardCurrentStockIs {
+            get {
+                return ResourceManager.GetString("DashboardCurrentStockIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Days Left.
+        /// </summary>
+        public static string DashboardDaysLeft {
+            get {
+                return ResourceManager.GetString("DashboardDaysLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forecast (week).
+        /// </summary>
+        public static string DashboardForecast7Days {
+            get {
+                return ResourceManager.GetString("DashboardForecast7Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forecast (week):.
+        /// </summary>
+        public static string DashboardForecast7DaysIs {
+            get {
+                return ResourceManager.GetString("DashboardForecast7DaysIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Name.
+        /// </summary>
+        public static string DashboardMaterialName {
+            get {
+                return ResourceManager.GetString("DashboardMaterialName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min Stock.
+        /// </summary>
+        public static string DashboardMinStock {
+            get {
+                return ResourceManager.GetString("DashboardMinStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimal Stock:.
+        /// </summary>
+        public static string DashboardMinStockIs {
+            get {
+                return ResourceManager.GetString("DashboardMinStockIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        public static string DashboardUnit {
+            get {
+                return ResourceManager.GetString("DashboardUnit", resourceCulture);
             }
         }
         
@@ -97,6 +214,15 @@ namespace Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Categories.
+        /// </summary>
+        public static string MainViewCategoriesMenu {
+            get {
+                return ResourceManager.GetString("MainViewCategoriesMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboards.
         /// </summary>
         public static string MainViewDashboardsMenu {
@@ -124,11 +250,47 @@ namespace Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material Movements.
+        /// </summary>
+        public static string MainViewMaterialMovements {
+            get {
+                return ResourceManager.GetString("MainViewMaterialMovements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Materials.
         /// </summary>
         public static string MainViewMaterialsMenu {
             get {
                 return ResourceManager.GetString("MainViewMaterialsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units of Measurement.
+        /// </summary>
+        public static string MainViewMeasurementUnitsMenu {
+            get {
+                return ResourceManager.GetString("MainViewMeasurementUnitsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Account.
+        /// </summary>
+        public static string MainViewMyAccountMenu {
+            get {
+                return ResourceManager.GetString("MainViewMyAccountMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Organization.
+        /// </summary>
+        public static string MainViewOrganizationMenu {
+            get {
+                return ResourceManager.GetString("MainViewOrganizationMenu", resourceCulture);
             }
         }
         
@@ -178,6 +340,15 @@ namespace Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string MainViewUsersMenu {
+            get {
+                return ResourceManager.GetString("MainViewUsersMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warehouses.
         /// </summary>
         public static string MainViewWarehousesMenu {
@@ -187,11 +358,398 @@ namespace Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ⬇️ Write Off by Barcode.
+        /// </summary>
+        public static string MaterialMovementsWriteOffByBarcode {
+            get {
+                return ResourceManager.GetString("MaterialMovementsWriteOffByBarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barcode: {0}.
+        /// </summary>
+        public static string MmBarcodeNumberFormat {
+            get {
+                return ResourceManager.GetString("MmBarcodeNumberFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string MmCategory {
+            get {
+                return ResourceManager.GetString("MmCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Date (optional):.
+        /// </summary>
+        public static string MmExpirarationDateOptionalIs {
+            get {
+                return ResourceManager.GetString("MmExpirarationDateOptionalIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Date.
+        /// </summary>
+        public static string MmExpirationDate {
+            get {
+                return ResourceManager.GetString("MmExpirationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Date: {0:d}.
+        /// </summary>
+        public static string MmExpirationDateFormat {
+            get {
+                return ResourceManager.GetString("MmExpirationDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Info.
+        /// </summary>
+        public static string MmInfoAboutMaterial {
+            get {
+                return ResourceManager.GetString("MmInfoAboutMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Movement Info.
+        /// </summary>
+        public static string MmInfoAboutMm {
+            get {
+                return ResourceManager.GetString("MmInfoAboutMm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material.
+        /// </summary>
+        public static string MmMaterial {
+            get {
+                return ResourceManager.GetString("MmMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material:.
+        /// </summary>
+        public static string MmMaterialIs {
+            get {
+                return ResourceManager.GetString("MmMaterialIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement.
+        /// </summary>
+        public static string MmMovement {
+            get {
+                return ResourceManager.GetString("MmMovement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement Date.
+        /// </summary>
+        public static string MmMovementDate {
+            get {
+                return ResourceManager.GetString("MmMovementDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement Date: {0:d}.
+        /// </summary>
+        public static string MmMovementDateFormat {
+            get {
+                return ResourceManager.GetString("MmMovementDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement Date:.
+        /// </summary>
+        public static string MmMovementDateIs {
+            get {
+                return ResourceManager.GetString("MmMovementDateIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movement Type:.
+        /// </summary>
+        public static string MmMovementTypeIs {
+            get {
+                return ResourceManager.GetString("MmMovementTypeIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price.
+        /// </summary>
+        public static string MmPrice {
+            get {
+                return ResourceManager.GetString("MmPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price: {0:F2}.
+        /// </summary>
+        public static string MmPricePerUnitFormat {
+            get {
+                return ResourceManager.GetString("MmPricePerUnitFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price per Unit:.
+        /// </summary>
+        public static string MmPricePerUnitIs {
+            get {
+                return ResourceManager.GetString("MmPricePerUnitIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string MmQuantity {
+            get {
+                return ResourceManager.GetString("MmQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity: {0:F2}.
+        /// </summary>
+        public static string MmQuantityFormat {
+            get {
+                return ResourceManager.GetString("MmQuantityFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity:.
+        /// </summary>
+        public static string MmQuantityIs {
+            get {
+                return ResourceManager.GetString("MmQuantityIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient Address:.
+        /// </summary>
+        public static string MmRecipientAddressIs {
+            get {
+                return ResourceManager.GetString("MmRecipientAddressIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient Contact Person:.
+        /// </summary>
+        public static string MmRecipientContactPersonIs {
+            get {
+                return ResourceManager.GetString("MmRecipientContactPersonIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient EDRPOU:.
+        /// </summary>
+        public static string MmRecipientEdrpouIs {
+            get {
+                return ResourceManager.GetString("MmRecipientEdrpouIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient Name:.
+        /// </summary>
+        public static string MmRecipientNameIs {
+            get {
+                return ResourceManager.GetString("MmRecipientNameIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supplier.
+        /// </summary>
+        public static string MmSupplier {
+            get {
+                return ResourceManager.GetString("MmSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address: {0}.
+        /// </summary>
+        public static string MmSupplierAddressFormat {
+            get {
+                return ResourceManager.GetString("MmSupplierAddressFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact Person: {0}.
+        /// </summary>
+        public static string MmSupplierContactPersonFormat {
+            get {
+                return ResourceManager.GetString("MmSupplierContactPersonFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email: {0}.
+        /// </summary>
+        public static string MmSupplierEmailFormat {
+            get {
+                return ResourceManager.GetString("MmSupplierEmailFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material: {0}.
+        /// </summary>
+        public static string MmSupplierNameFormat {
+            get {
+                return ResourceManager.GetString("MmSupplierNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone: {0}.
+        /// </summary>
+        public static string MmSupplierPhoneFormat {
+            get {
+                return ResourceManager.GetString("MmSupplierPhoneFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warehouse.
+        /// </summary>
+        public static string MmWarehouse {
+            get {
+                return ResourceManager.GetString("MmWarehouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warehouse:.
+        /// </summary>
+        public static string MmWarehouseIs {
+            get {
+                return ResourceManager.GetString("MmWarehouseIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add.
         /// </summary>
         public static string PlusAdd {
             get {
                 return ResourceManager.GetString("PlusAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🔄 Refresh.
+        /// </summary>
+        public static string RefreshWithIcon {
+            get {
+                return ResourceManager.GetString("RefreshWithIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract Number.
+        /// </summary>
+        public static string ReportingContractNumber {
+            get {
+                return ResourceManager.GetString("ReportingContractNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date From:.
+        /// </summary>
+        public static string ReportingDateFrom {
+            get {
+                return ResourceManager.GetString("ReportingDateFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date To:.
+        /// </summary>
+        public static string ReportingDateTo {
+            get {
+                return ResourceManager.GetString("ReportingDateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string ReportingDownload {
+            get {
+                return ResourceManager.GetString("ReportingDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate.
+        /// </summary>
+        public static string ReportingGenerate {
+            get {
+                return ResourceManager.GetString("ReportingGenerate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goods Issue Note.
+        /// </summary>
+        public static string ReportingGoodsIssueNote {
+            get {
+                return ResourceManager.GetString("ReportingGoodsIssueNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goods Receipt Note.
+        /// </summary>
+        public static string ReportingGoodsReceiptNote {
+            get {
+                return ResourceManager.GetString("ReportingGoodsReceiptNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipient.
+        /// </summary>
+        public static string ReportingRecipient {
+            get {
+                return ResourceManager.GetString("ReportingRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supplier.
+        /// </summary>
+        public static string ReportingSupplier {
+            get {
+                return ResourceManager.GetString("ReportingSupplier", resourceCulture);
             }
         }
         

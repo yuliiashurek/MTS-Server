@@ -3,11 +3,17 @@ using Client.Services;
 using Server.Shared.DTOs;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Client.Views
 {
     public partial class MaterialItemForm : Window
     {
+
+        public ObservableCollection<string> AvailableEmails { get; set; } = new();
+        public ObservableCollection<string> SelectedEmails { get; set; } = new();
+        private readonly UserApiService _userService = new(App.SharedHttpClient);
+
         public MaterialItem MaterialItem { get; private set; }
 
         public ObservableCollection<MeasurementUnit> MeasurementUnits { get; set; } = new();
@@ -67,8 +73,33 @@ namespace Client.Views
                 SelectedSupplier = Suppliers.FirstOrDefault(x => x.Id == existing.SupplierId);
             }
 
+
+            var users = await _userService.GetAllAsync();
+            AvailableEmails = new ObservableCollection<string>(users?
+                .Where(u => !string.IsNullOrWhiteSpace(u.Email))
+                .Select(u => u.Email) ?? Enumerable.Empty<string>());
+
             DataContext = null;
             DataContext = this;
+
+            if (existing != null)
+            {
+                if (!string.IsNullOrWhiteSpace(existing.NotificationEmails))
+                {
+                    var selectedEmails = existing.NotificationEmails
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        foreach (var email in selectedEmails)
+                        {
+                            if (AvailableEmails.Contains(email))
+                                EmailListBox.SelectedItems.Add(email);
+                        }
+                    }, DispatcherPriority.Loaded);
+                }
+            }
+
         }
 
 
@@ -82,6 +113,9 @@ namespace Client.Views
 
             if (SelectedSupplier != null)
                 MaterialItem.SupplierId = SelectedSupplier.Id;
+            var selected = EmailListBox.SelectedItems.Cast<string>().ToList();
+            MaterialItem.NotificationEmails = string.Join(",", selected);
+
 
             DialogResult = true;
             Close();

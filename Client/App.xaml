@@ -10,7 +10,19 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Конвертер -->
             <helpers:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+
+            <!--<Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                <Setter Property="Background" Value="#F0F8F4" />
+            </Style>-->
+
+            <!-- Жовтий для виділення -->
+            <Color x:Key="PrimaryBrush.Color">#D4A017</Color>
+            <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryBrush.Color}"/>
+            <SolidColorBrush x:Key="PrimaryTextBrush" Color="Black"/>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
