@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace Client.Views
 {
-    public partial class MaterialMovementForm : Window
+    public partial class MaterialMovementForm : HandyControl.Controls.Window
     {
         public MaterialMovement Result { get; private set; }
 

@@ -38,4 +38,16 @@ public class EmailService : IEmailService
 
         await smtpClient.SendMailAsync(mailMessage);
     }
+
+    public async Task SendLowStockAlert(string toEmail, string materialName, decimal currentStock, decimal minimumStock)
+    {
+        var subject = $"[Увага] Низький запас матеріалу: {materialName}";
+        var body = $@"
+        <p>Запас матеріалу <strong>{materialName}</strong> зменшився до <strong>{currentStock}</strong>, 
+        що дорівнює або менше мінімального запасу <strong>{minimumStock}</strong>.</p>
+        <p>Рекомендується перевірити залишки та здійснити замовлення за потреби.</p>";
+
+        await SendAsync(toEmail, subject, body);
+    }
+
 }

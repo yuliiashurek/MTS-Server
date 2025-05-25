@@ -117,8 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllDashboardsConsumptionForecast" xml:space="preserve">
+    <value>Прогноз витрат</value>
+  </data>
+  <data name="AllDashboardsCurrentStock" xml:space="preserve">
+    <value>Поточні залишки</value>
+  </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Скасувати</value>
+  </data>
+  <data name="DashboardAverageDailyUsage" xml:space="preserve">
+    <value>Середнє/день</value>
+  </data>
+  <data name="DashboardCategory" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
+  <data name="DashboardCurrentStock" xml:space="preserve">
+    <value>Поточний запас</value>
+  </data>
+  <data name="DashboardCurrentStockIs" xml:space="preserve">
+    <value>Поточний запас:</value>
+  </data>
+  <data name="DashboardDaysLeft" xml:space="preserve">
+    <value>Днів вистачить</value>
+  </data>
+  <data name="DashboardForecast7Days" xml:space="preserve">
+    <value>Прогноз (тиждень)</value>
+  </data>
+  <data name="DashboardForecast7DaysIs" xml:space="preserve">
+    <value>Прогноз (тиждень):</value>
+  </data>
+  <data name="DashboardMaterialName" xml:space="preserve">
+    <value>Назва матеріалу</value>
+  </data>
+  <data name="DashboardMinStock" xml:space="preserve">
+    <value>Мін.запас</value>
+  </data>
+  <data name="DashboardMinStockIs" xml:space="preserve">
+    <value>Мінімальний запас:</value>
+  </data>
+  <data name="DashboardUnit" xml:space="preserve">
+    <value>Од.вим.</value>
   </data>
   <data name="DeleteButton" xml:space="preserve">
     <value>Видалити</value>
@@ -129,6 +168,9 @@
   <data name="EditButton" xml:space="preserve">
     <value>Редагувати</value>
   </data>
+  <data name="MainViewCategoriesMenu" xml:space="preserve">
+    <value>Категорії</value>
+  </data>
   <data name="MainViewDashboardsMenu" xml:space="preserve">
     <value>Дашборди</value>
   </data>
@@ -138,8 +180,20 @@
   <data name="MainViewHelpMenu" xml:space="preserve">
     <value>Допомога</value>
   </data>
+  <data name="MainViewMaterialMovements" xml:space="preserve">
+    <value>Рух матеріалів</value>
+  </data>
   <data name="MainViewMaterialsMenu" xml:space="preserve">
     <value>Матеріали</value>
+  </data>
+  <data name="MainViewMeasurementUnitsMenu" xml:space="preserve">
+    <value>Одиниці вимірювання</value>
+  </data>
+  <data name="MainViewMyAccountMenu" xml:space="preserve">
+    <value>Мій аккаунт</value>
+  </data>
+  <data name="MainViewOrganizationMenu" xml:space="preserve">
+    <value>Моя організація</value>
   </data>
   <data name="MainViewPrintFormatsMenu" xml:space="preserve">
     <value>Формати друку</value>
@@ -156,11 +210,143 @@
   <data name="MainViewSuppliersMenu" xml:space="preserve">
     <value>Постачальники</value>
   </data>
+  <data name="MainViewUsersMenu" xml:space="preserve">
+    <value>Користувачі</value>
+  </data>
   <data name="MainViewWarehousesMenu" xml:space="preserve">
     <value>Складські приміщення</value>
   </data>
+  <data name="MaterialMovementsWriteOffByBarcode" xml:space="preserve">
+    <value>⬇️ Списати за штрих-кодом</value>
+  </data>
+  <data name="MmBarcodeNumberFormat" xml:space="preserve">
+    <value>Штрих-код: {0}</value>
+  </data>
+  <data name="MmCategory" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
+  <data name="MmExpirarationDateOptionalIs" xml:space="preserve">
+    <value>Термін придатності (необов'язково):</value>
+  </data>
+  <data name="MmExpirationDate" xml:space="preserve">
+    <value>Термін придатності</value>
+  </data>
+  <data name="MmExpirationDateFormat" xml:space="preserve">
+    <value>Термін придатності: {0:d}</value>
+  </data>
+  <data name="MmInfoAboutMaterial" xml:space="preserve">
+    <value>Інформація про матеріал</value>
+  </data>
+  <data name="MmInfoAboutMm" xml:space="preserve">
+    <value>Інформація про рух</value>
+  </data>
+  <data name="MmMaterial" xml:space="preserve">
+    <value>Матеріал</value>
+  </data>
+  <data name="MmMaterialIs" xml:space="preserve">
+    <value>Матеріал:</value>
+  </data>
+  <data name="MmMovement" xml:space="preserve">
+    <value>Рух</value>
+  </data>
+  <data name="MmMovementDate" xml:space="preserve">
+    <value>Дата руху</value>
+  </data>
+  <data name="MmMovementDateFormat" xml:space="preserve">
+    <value>Дата руху: {0:d}</value>
+  </data>
+  <data name="MmMovementDateIs" xml:space="preserve">
+    <value>Дата руху:</value>
+  </data>
+  <data name="MmMovementTypeIs" xml:space="preserve">
+    <value>Тип руху:</value>
+  </data>
+  <data name="MmPrice" xml:space="preserve">
+    <value>Ціна</value>
+  </data>
+  <data name="MmPricePerUnitFormat" xml:space="preserve">
+    <value>Ціна: {0:F2}</value>
+  </data>
+  <data name="MmPricePerUnitIs" xml:space="preserve">
+    <value>Ціна за одиницю:</value>
+  </data>
+  <data name="MmQuantity" xml:space="preserve">
+    <value>Кількість</value>
+  </data>
+  <data name="MmQuantityFormat" xml:space="preserve">
+    <value>Кількість: {0:F2}</value>
+  </data>
+  <data name="MmQuantityIs" xml:space="preserve">
+    <value>Кількість:</value>
+  </data>
+  <data name="MmRecipientAddressIs" xml:space="preserve">
+    <value>Адреса отримувача:</value>
+  </data>
+  <data name="MmRecipientContactPersonIs" xml:space="preserve">
+    <value>Контактна особа отримувача:</value>
+  </data>
+  <data name="MmRecipientEdrpouIs" xml:space="preserve">
+    <value>Код ЕДРПОУ отримувача:</value>
+  </data>
+  <data name="MmRecipientNameIs" xml:space="preserve">
+    <value>Назва отримувача:</value>
+  </data>
+  <data name="MmSupplier" xml:space="preserve">
+    <value>Постачальник</value>
+  </data>
+  <data name="MmSupplierAddressFormat" xml:space="preserve">
+    <value>Адреса: {0}</value>
+  </data>
+  <data name="MmSupplierContactPersonFormat" xml:space="preserve">
+    <value>Контактна особа: {0}</value>
+  </data>
+  <data name="MmSupplierEmailFormat" xml:space="preserve">
+    <value>Email: {0}</value>
+  </data>
+  <data name="MmSupplierNameFormat" xml:space="preserve">
+    <value>Назва: {0}</value>
+  </data>
+  <data name="MmSupplierPhoneFormat" xml:space="preserve">
+    <value>Телефон: {0}</value>
+  </data>
+  <data name="MmWarehouse" xml:space="preserve">
+    <value>Склад</value>
+  </data>
+  <data name="MmWarehouseIs" xml:space="preserve">
+    <value>Склад:</value>
+  </data>
   <data name="PlusAdd" xml:space="preserve">
     <value>+ Додати</value>
+  </data>
+  <data name="RefreshWithIcon" xml:space="preserve">
+    <value>🔄 Оновити</value>
+  </data>
+  <data name="ReportingContractNumber" xml:space="preserve">
+    <value>Номер договору</value>
+  </data>
+  <data name="ReportingDateFrom" xml:space="preserve">
+    <value>Дата від:</value>
+  </data>
+  <data name="ReportingDateTo" xml:space="preserve">
+    <value>Дата до:</value>
+  </data>
+  <data name="ReportingDownload" xml:space="preserve">
+    <value>Завантажити</value>
+  </data>
+  <data name="ReportingGenerate" xml:space="preserve">
+    <value>Згенерувати</value>
+  </data>
+  <data name="ReportingGoodsIssueNote" xml:space="preserve">
+    <value>Акт видачі</value>
+  </data>
+  <data name="ReportingGoodsReceiptNote" xml:space="preserve">
+    <value>Акт приймання</value>
+  </data>
+  <data name="ReportingRecipient" xml:space="preserve">
+    <value>Отримувач</value>
+  </data>
+  <data name="ReportingSupplier" xml:space="preserve">
+    <value>Постачальник</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
     <value>Зберегти</value>

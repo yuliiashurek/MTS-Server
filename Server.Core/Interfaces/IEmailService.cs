@@ -9,6 +9,7 @@ namespace Server.Core.Interfaces
     public interface IEmailService
     {
         Task SendAsync(string toEmail, string subject, string body);
+        Task SendLowStockAlert(string to, string materialName, decimal current, decimal minimum);
     }
 
 }

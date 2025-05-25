@@ -102,7 +102,64 @@ public class AuthService : IAuthService
         await _unitOfWork.SaveChangesAsync();
 
         var resetUrl = $"https://localhost:7299/set-password.html?token={token}";
-        await _emailService.SendAsync(dto.AdminEmail, "Ваш акаунт у системі", $"Перейдіть за посиланням: {resetUrl}");
+        await _emailService.SendAsync(
+    dto.AdminEmail,
+    "Ваш акаунт у системі MTS",
+    $@"
+<html>
+<head>
+  <style>
+    body {{
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }}
+    .header {{
+      background-color: #1B4332;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }}
+    .container {{
+      padding: 30px;
+    }}
+    .button {{
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #1B4332;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }}
+    .footer {{
+      margin-top: 30px;
+      font-size: 12px;
+      color: #777;
+    }}
+  </style>
+</head>
+<body>
+  <div class='header'>
+    ⚙ MTS – Облік матеріалів
+  </div>
+  <div class='container'>
+    <p>Вітаємо!</p>
+    <p>Вашу організацію успішно зареєстровано в системі <strong>MTS</strong> — інструменті для обліку матеріалів на виробничих підприємствах.</p>
+    <p>Для завершення реєстрації та створення пароля адміністратора, перейдіть за посиланням тв встановіть пароль.</p>
+    <p><a href='{resetUrl}' class='button'>Встановити пароль</a></p>
+    <p>Посилання є одноразовим та дійсне протягом 24 годин.</p>
+    <div class='footer'>
+      Якщо ви не очікували цього листа — просто проігноруйте його.
+    </div>
+  </div>
+</body>
+</html>"
+);
+
 
         //await _unitOfWork.Users.AddAsync(admin);
         await _unitOfWork.SaveChangesAsync();

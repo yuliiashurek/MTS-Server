@@ -6,6 +6,7 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              xmlns:vm="clr-namespace:Client.ViewModels.MenuControls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:properties="clr-namespace:Client.Properties"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:DashboardViewModel}"
              Loaded="UserControl_Loaded">
@@ -86,7 +87,7 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Material Name" Binding="{Binding MaterialName}">
+                <DataGridTextColumn Header="{x:Static properties:Resources.DashboardMaterialName}" Binding="{Binding MaterialName}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Padding" Value="10,4"/>
@@ -94,7 +95,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Unit" Binding="{Binding UnitName}">
+                <DataGridTextColumn Header="{x:Static properties:Resources.DashboardUnit}" Binding="{Binding UnitName}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Padding" Value="10,4"/>
@@ -102,7 +103,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}">
+                <DataGridTextColumn Header="{x:Static properties:Resources.DashboardCategory}" Binding="{Binding CategoryName}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Padding" Value="10,4"/>
@@ -118,7 +119,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}">
+                <DataGridTextColumn Header="{x:Static properties:Resources.DashboardCurrentStock}" Binding="{Binding CurrentStock}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Padding" Value="10,4"/>
@@ -126,7 +127,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Min Stock" Binding="{Binding MinimumStock}">
+                <DataGridTextColumn Header="{x:Static properties:Resources.DashboardMinStock}" Binding="{Binding MinimumStock}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Padding" Value="10,4"/>
@@ -149,9 +150,9 @@
                                 YAxes="{Binding YAxes}" />
 
             <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                <TextBlock Text="Поточний запас:" FontSize="16" Margin="0,0,0,5" />
+                <TextBlock Text="{x:Static properties:Resources.DashboardCurrentStockIs}" FontSize="16" Margin="0,0,0,5" />
                 <TextBlock Text="{Binding SelectedMaterial.CurrentStock}" FontSize="24" FontWeight="Bold" />
-                <TextBlock Text="Мінімальний запас:" FontSize="16" Margin="0,20,0,5" />
+                <TextBlock Text="{x:Static properties:Resources.DashboardMinStockIs}" FontSize="16" Margin="0,20,0,5" />
                 <TextBlock Text="{Binding SelectedMaterial.MinimumStock}" FontSize="24" FontWeight="Bold" />
             </StackPanel>
         </Grid>

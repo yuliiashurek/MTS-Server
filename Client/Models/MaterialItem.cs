@@ -24,5 +24,7 @@ namespace Client.Models
             public Guid CategoryId { get; set; }
             
             public Guid SupplierId { get; set; }
-        }
+            public string NotificationEmails { get; set; } = string.Empty;
+
+    }
 }

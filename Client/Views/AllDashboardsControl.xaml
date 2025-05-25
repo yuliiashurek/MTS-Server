@@ -5,6 +5,7 @@
              xmlns:views="clr-namespace:Client.Views"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:properties="clr-namespace:Client.Properties"
              mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -13,10 +14,10 @@
 
     <Grid Margin="20">
         <TabControl SelectedIndex="{Binding SelectedTabIndex}">
-            <TabItem Header="Поточні залишки">
+            <TabItem Header="{x:Static properties:Resources.AllDashboardsCurrentStock}">
                 <views:DashboardControl />
             </TabItem>
-            <TabItem Header="Прогнозування витрат">
+            <TabItem Header="{x:Static properties:Resources.AllDashboardsConsumptionForecast}">
                 <views:ForecastDashboard />
             </TabItem>
         </TabControl>
