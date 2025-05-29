@@ -5,7 +5,7 @@ using Server.Shared.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Server.API.Controllers
+namespace Server.API.Controllers.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
@@ -21,6 +21,10 @@ namespace Server.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Отримати список усіх постачальників.
+        /// </summary>
+        [ProducesResponseType(typeof(List<SupplierDto>), StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -29,6 +33,11 @@ namespace Server.API.Controllers
             return Ok(dtoList);
         }
 
+        /// <summary>
+        /// Додати нового постачальника.
+        /// </summary>
+        /// <param name="dto">Дані постачальника.</param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SupplierDto dto)
         {
@@ -36,6 +45,13 @@ namespace Server.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Оновити дані постачальника.
+        /// </summary>
+        /// <param name="id">ID постачальника.</param>
+        /// <param name="dto">Оновлені дані постачальника.</param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] SupplierDto dto)
         {
@@ -45,6 +61,11 @@ namespace Server.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Видалити постачальника за ID.
+        /// </summary>
+        /// <param name="id">ID постачальника.</param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

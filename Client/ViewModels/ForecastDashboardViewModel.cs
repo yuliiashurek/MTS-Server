@@ -1,5 +1,6 @@
 ﻿// ForecastDashboardViewModel.cs
 
+using Client.Helpers.Others;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
@@ -77,93 +78,156 @@ namespace Client.ViewModels
         {
             var raw = await _dashboardApiService.GetMaterialOutflowHistoryAsync(materialId);
 
-            var grouped = raw
+            //if (!raw.Any()) return;
+
+            var groupedDaily = raw
                 .GroupBy(x => x.Date.Date)
                 .ToDictionary(g => g.Key, g => (double)g.Sum(x => x.OutQuantity));
 
-            var today = DateTime.Today;
+            var thisMonday = DateTime.Today.StartOfWeek(DayOfWeek.Monday);
+            var startWeek = thisMonday.AddDays(-7 * 3); // 3 тижні назад
 
-            var pastPoints = Enumerable.Range(0, 30)
-                .Select(i => today.AddDays(-29 + i))
-                .Select(date => (Date: date, Usage: grouped.TryGetValue(date, out var v) ? v : 0))
-                .ToList();
+            var weeks = new List<DateTime>();
+            for (int i = 0; i < 6; i++) // 3 факт + 1 поточний + 2 прогноз
+                weeks.Add(startWeek.AddDays(i * 7));
 
-            var forecastPoints = new List<(DateTime Date, double Usage)>();
-            for (int i = 1; i <= 7; i++)
+            var actualValues = new List<double?>();
+            var forecastValues = new List<double?>();
+
+            var weeklyUsage = new List<double>();
+
+            foreach (var weekStart in weeks)
             {
-                var date = today.AddDays(i);
-                var usage = GetWeightedForecast(pastPoints, date);
-                forecastPoints.Add((date, usage));
+                var weekdays = Enumerable.Range(0, 5) // ПН–ПТ
+                    .Select(i => weekStart.AddDays(i))
+                    .ToList();
+
+                var usage = weekdays.Sum(d => groupedDaily.TryGetValue(d, out var v) ? v : 0);
+                weeklyUsage.Add(usage);
             }
 
-            var allDates = pastPoints.Select(p => p.Date).Concat(forecastPoints.Select(p => p.Date)).ToList();
+            // --- 3 тижні факт ---
+            for (int i = 0; i < 3; i++)
+            {
+                actualValues.Add(weeklyUsage[i]);
+                forecastValues.Add(null);
+            }
 
+            // --- поточний тиждень ---
+            var thisWeekFact = weeklyUsage[3];
+            var thisWeekForecast = GetTrendForecast(weeklyUsage.Take(3).ToList());
+            actualValues.Add(thisWeekFact);
+            forecastValues.Add(thisWeekForecast);
+
+            // ⬇️ Отримуємо фактичне та прогнозоване значення для поточного тижня
+            double fact = weeklyUsage[3];
+            double forecast = GetTrendForecast(weeklyUsage.Take(3).ToList());
+
+            double weightForecast;
+            double weightFact;
+
+            switch (DateTime.Today.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    weightForecast = 1.0;
+                    weightFact = 0.0;
+                    break;
+                case DayOfWeek.Tuesday:
+                    weightForecast = 0.75;
+                    weightFact = 0.25;
+                    break;
+                case DayOfWeek.Wednesday:
+                    weightForecast = 0.5;
+                    weightFact = 0.5;
+                    break;
+                case DayOfWeek.Thursday:
+                    weightForecast = 0.25;
+                    weightFact = 0.75;
+                    break;
+                case DayOfWeek.Friday:
+                default:
+                    weightForecast = 0.0;
+                    weightFact = 1.0;
+                    break;
+            }
+
+            var weightedCurrentWeek = Math.Round(
+                forecast * weightForecast + fact * weightFact,
+                2);
+
+            // --- прогноз на 2 наступні тижні, будуємо на базі фактів і вже збудованих прогнозів
+            var baseForForecast = weeklyUsage.Take(3).ToList();
+            baseForForecast.Add(weightedCurrentWeek);
+
+            var next1 = GetTrendForecast(baseForForecast);
+            baseForForecast.Add(next1);
+
+            var next2 = GetTrendForecast(baseForForecast);
+
+            actualValues.Add(null);
+            forecastValues.Add(next1);
+            actualValues.Add(null);
+            forecastValues.Add(next2);
+
+            // --- графік ---
             Series = new ISeries[]
             {
-                new ColumnSeries<double?>
-                {
-                    Name = "Факт",
-                    Values = allDates
-                        .Select(date => pastPoints.FirstOrDefault(p => p.Date == date).Usage)
-                        .Cast<double?>()
-                        .ToArray(),
-                    Fill = new SolidColorPaint(SKColors.SteelBlue),
-                    Stroke = null
-                },
-                new ColumnSeries<double?>
-                {
-                    Name = "Прогноз",
-                    Values = allDates
-                        .Select(date => forecastPoints.FirstOrDefault(p => p.Date == date).Usage)
-                        .Cast<double?>()
-                        .ToArray(),
-                    Fill = new SolidColorPaint(SKColors.Gray.WithAlpha(180)),
-                    Stroke = null
-                }
+        new ColumnSeries<double?>
+        {
+            Name = "Факт",
+            Values = actualValues.ToArray(),
+            Fill = new SolidColorPaint(SKColors.SteelBlue),
+            Stroke = null
+        },
+        new ColumnSeries<double?>
+        {
+            Name = "Прогноз",
+            Values = forecastValues.ToArray(),
+            Fill = new SolidColorPaint(SKColors.Gray.WithAlpha(180)),
+            Stroke = null
+        }
             };
 
             XAxes = new Axis[]
             {
-                new Axis
-                {
-                    Labels = allDates.Select(d => d.ToString("dd.MM")).ToArray(),
-                    LabelsPaint = new SolidColorPaint(SKColors.Black),
-                    SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
-                }
+        new Axis
+        {
+            Labels = weeks.Select(w => $"{w.AddDays(2):dd.MM}").ToArray(), // середа (центр ПН–ПТ)
+            LabelsPaint = new SolidColorPaint(SKColors.Black),
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+        }
             };
         }
 
-        private double GetWeightedForecast(List<(DateTime Date, double Usage)> history, DateTime targetDate)
+
+        private double GetTrendForecast(List<double> weeklyValues)
         {
-            const double alpha = 0.3;
+            if (weeklyValues.Count < 2)
+                return weeklyValues.FirstOrDefault();
 
-            var ordered = history
-                .Where(p => p.Date < targetDate)
-                .OrderBy(p => p.Date)
-                .ToList();
+            int n = weeklyValues.Count;
+            double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
 
-            if (!ordered.Any()) return 0;
-
-            double smoothed = ordered.First().Usage;
-
-            foreach (var point in ordered.Skip(1))
+            for (int i = 0; i < n; i++)
             {
-                smoothed = alpha * point.Usage + (1 - alpha) * smoothed;
+                double x = i + 1;
+                double y = weeklyValues[i];
+
+                sumX += x;
+                sumY += y;
+                sumXY += x * y;
+                sumX2 += x * x;
             }
 
-            var weekdayMultipliers = new Dictionary<DayOfWeek, double>
-            {
-                [DayOfWeek.Monday] = 1.0,
-                [DayOfWeek.Tuesday] = 1.05,
-                [DayOfWeek.Wednesday] = 0.95,
-                [DayOfWeek.Thursday] = 1.1,
-                [DayOfWeek.Friday] = 1.2,
-                [DayOfWeek.Saturday] = 0.6,
-                [DayOfWeek.Sunday] = 0.5
-            };
+            double slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            double intercept = (sumY - slope * sumX) / n;
 
-            var multiplier = weekdayMultipliers[targetDate.DayOfWeek];
-            return Math.Round(smoothed * multiplier, 2);
+            double forecast = slope * (n + 1) + intercept;
+
+            return Math.Round(Math.Max(forecast, 0), 2);
         }
+
+
+
     }
 }

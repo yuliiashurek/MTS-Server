@@ -4,7 +4,7 @@ using Server.Core.Interfaces;
 using Server.Shared.DTOs;
 using System.Security.Claims;
 
-namespace Server.API.Controllers
+namespace Server.API.Controllers.Controllers
 {
     [Authorize(Roles = "Admin")]
     [ApiController]
@@ -18,6 +18,10 @@ namespace Server.API.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Отримати список користувачів у поточній організації (доступно лише адміністратору).
+        /// </summary>
+        [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -26,6 +30,12 @@ namespace Server.API.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Створити нового користувача в організації.
+        /// </summary>
+        /// <param name="dto">Дані нового користувача.</param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserDto dto)
         {
@@ -34,6 +44,12 @@ namespace Server.API.Controllers
             return result ? Ok() : BadRequest("Не вдалося створити користувача");
         }
 
+        /// <summary>
+        /// Видалити користувача з організації.
+        /// </summary>
+        /// <param name="id">ID користувача, якого потрібно видалити.</param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -42,6 +58,12 @@ namespace Server.API.Controllers
             return result ? Ok() : BadRequest("Не вдалося видалити користувача");
         }
 
+        /// <summary>
+        /// Повторно надіслати запрошення користувачу.
+        /// </summary>
+        /// <param name="userIdToInvite">ID користувача, якому потрібно надіслати запрошення.</param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("invite")]
         public async Task<IActionResult> Invite([FromBody] Guid userIdToInvite)
         {

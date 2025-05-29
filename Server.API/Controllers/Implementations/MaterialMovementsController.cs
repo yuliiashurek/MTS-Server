@@ -3,7 +3,7 @@ using Server.API.Controllers.Base;
 using Server.Shared.DTOs;
 using Server.Core.Interfaces;
 
-namespace Server.API.Controllers
+namespace Server.API.Controllers.Controllers
 {
     public class MaterialMovementsController : BaseController<MaterialMovementDto>
     {

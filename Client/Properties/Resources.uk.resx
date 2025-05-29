@@ -142,10 +142,10 @@
     <value>Днів вистачить</value>
   </data>
   <data name="DashboardForecast7Days" xml:space="preserve">
-    <value>Прогноз (тиждень)</value>
+    <value>Середнє/тиждень</value>
   </data>
   <data name="DashboardForecast7DaysIs" xml:space="preserve">
-    <value>Прогноз (тиждень):</value>
+    <value>Середнє/тиждень:</value>
   </data>
   <data name="DashboardMaterialName" xml:space="preserve">
     <value>Назва матеріалу</value>
@@ -218,6 +218,24 @@
   </data>
   <data name="MaterialMovementsWriteOffByBarcode" xml:space="preserve">
     <value>⬇️ Списати за штрих-кодом</value>
+  </data>
+  <data name="MeasurementUnitsAbbreviation" xml:space="preserve">
+    <value>Скорочено</value>
+  </data>
+  <data name="MeasurementUnitsUnit" xml:space="preserve">
+    <value>Повна назва</value>
+  </data>
+  <data name="MiCategory" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
+  <data name="MiMeasurementUnit" xml:space="preserve">
+    <value>Од.вим.</value>
+  </data>
+  <data name="MiMinStock" xml:space="preserve">
+    <value>Мінімальний запас</value>
+  </data>
+  <data name="MiName" xml:space="preserve">
+    <value>Назва</value>
   </data>
   <data name="MmBarcodeNumberFormat" xml:space="preserve">
     <value>Штрих-код: {0}</value>
@@ -383,5 +401,17 @@
   </data>
   <data name="SuppliersControlLoadSuppliersError" xml:space="preserve">
     <value>Помилка завантаження постачальників:</value>
+  </data>
+  <data name="MiSupplier" xml:space="preserve">
+    <value>Постачальник</value>
+  </data>
+  <data name="MiNotification" xml:space="preserve">
+    <value>Email`и відповідальних людей</value>
+  </data>
+  <data name="SupplierFormEdrpouLabel" xml:space="preserve">
+    <value>ЄДРПОУ</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Назва</value>
   </data>
 </root>

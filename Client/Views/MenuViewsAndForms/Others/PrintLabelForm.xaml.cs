@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace Client.Views
 {
-    public partial class PrintLabelForm : Window
+    public partial class PrintLabelForm : HandyControl.Controls.Window
     {
         public PrintSettings Result { get; private set; }
 

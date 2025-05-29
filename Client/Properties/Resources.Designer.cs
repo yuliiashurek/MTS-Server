@@ -133,7 +133,7 @@ namespace Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast (week).
+        ///   Looks up a localized string similar to Average/week.
         /// </summary>
         public static string DashboardForecast7Days {
             get {
@@ -142,7 +142,7 @@ namespace Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast (week):.
+        ///   Looks up a localized string similar to Average/week:.
         /// </summary>
         public static string DashboardForecast7DaysIs {
             get {
@@ -363,6 +363,78 @@ namespace Client.Properties {
         public static string MaterialMovementsWriteOffByBarcode {
             get {
                 return ResourceManager.GetString("MaterialMovementsWriteOffByBarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abbreviation.
+        /// </summary>
+        public static string MeasurementUnitsAbbreviation {
+            get {
+                return ResourceManager.GetString("MeasurementUnitsAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit of Measurement.
+        /// </summary>
+        public static string MeasurementUnitsUnit {
+            get {
+                return ResourceManager.GetString("MeasurementUnitsUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string MiCategory {
+            get {
+                return ResourceManager.GetString("MiCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units.
+        /// </summary>
+        public static string MiMeasurementUnit {
+            get {
+                return ResourceManager.GetString("MiMeasurementUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimal Stock.
+        /// </summary>
+        public static string MiMinStock {
+            get {
+                return ResourceManager.GetString("MiMinStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string MiName {
+            get {
+                return ResourceManager.GetString("MiName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsible People&apos;s Emails.
+        /// </summary>
+        public static string MiNotification {
+            get {
+                return ResourceManager.GetString("MiNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supplier.
+        /// </summary>
+        public static string MiSupplier {
+            get {
+                return ResourceManager.GetString("MiSupplier", resourceCulture);
             }
         }
         
@@ -619,7 +691,7 @@ namespace Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Material: {0}.
+        ///   Looks up a localized string similar to Name: {0}.
         /// </summary>
         public static string MmSupplierNameFormat {
             get {
@@ -651,6 +723,15 @@ namespace Client.Properties {
         public static string MmWarehouseIs {
             get {
                 return ResourceManager.GetString("MmWarehouseIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
@@ -777,6 +858,15 @@ namespace Client.Properties {
         public static string SupplierFormContactPersonLabel {
             get {
                 return ResourceManager.GetString("SupplierFormContactPersonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EDRPOU.
+        /// </summary>
+        public static string SupplierFormEdrpouLabel {
+            get {
+                return ResourceManager.GetString("SupplierFormEdrpouLabel", resourceCulture);
             }
         }
         

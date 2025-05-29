@@ -75,10 +75,13 @@
           Width="Auto">
                     <Expander.Header>
                         <Border Background="#1B4332" Padding="4">
-                            <TextBlock Foreground="White" Text="📚 Directories"
+                            <TextBlock Foreground="White" 
                        FontSize="14"
                        Width="{Binding ElementName=expDirectories, Path=ActualWidth}"
-                       HorizontalAlignment="Stretch" />
+                       HorizontalAlignment="Stretch">
+                                    <Run Text="📚 "/>
+                                    <Run Text="{x:Static properties:Resources.MainViewDirectoriesMenu}"/>
+                            </TextBlock>
                         </Border>
                     </Expander.Header>
 

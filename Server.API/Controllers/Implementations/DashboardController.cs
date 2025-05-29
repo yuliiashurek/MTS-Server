@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Core.Interfaces;
 using Server.Shared.DTOs;
 
-namespace Server.API.Controllers
+namespace Server.API.Controllers.Controllers
 {
     [Authorize]
     [ApiController]
@@ -20,6 +20,10 @@ namespace Server.API.Controllers
             _dashboardService = dashboardService;
         }
 
+        /// <summary>
+        /// Отримання поточних залишків матеріалів по організації.
+        /// </summary>
+        [ProducesResponseType(typeof(List<MaterialCurrentStockDto>), StatusCodes.Status200OK)]
         [HttpGet("current-stocks")]
         public async Task<ActionResult<List<MaterialCurrentStockDto>>> GetCurrentStocks()
         {
@@ -28,6 +32,11 @@ namespace Server.API.Controllers
             return Ok(stocks);
         }
 
+        /// <summary>
+        /// Отримання історії залишків обраного матеріалу.
+        /// </summary>
+        /// <param name="materialId">Ідентифікатор матеріалу.</param>
+        [ProducesResponseType(typeof(List<StockHistoryPointDto>), StatusCodes.Status200OK)]
         [HttpGet("{materialId}/stock-history")]
         public async Task<ActionResult<List<StockHistoryPointDto>>> GetStockHistory(Guid materialId)
         {
@@ -36,6 +45,10 @@ namespace Server.API.Controllers
             return Ok(history);
         }
 
+        /// <summary>
+        /// Отримання прогнозу витрат матеріалів.
+        /// </summary>
+        [ProducesResponseType(typeof(List<ForecastDashboardItemDto>), StatusCodes.Status200OK)]
         [HttpGet("forecast")]
         public async Task<ActionResult<List<ForecastDashboardItemDto>>> GetForecastDashboard()
         {
@@ -43,6 +56,11 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Отримання історії витрат обраного матеріалу.
+        /// </summary>
+        /// <param name="materialId">Ідентифікатор матеріалу.</param>
+        [ProducesResponseType(typeof(List<MaterialOutflowPointDto>), StatusCodes.Status200OK)]
         [HttpGet("forecast/{materialId}/outflow")]
         public async Task<ActionResult<List<MaterialOutflowPointDto>>> GetMaterialOutflowHistory(Guid materialId)
         {
@@ -50,7 +68,6 @@ namespace Server.API.Controllers
             var history = await _dashboardService.GetMaterialOutflowHistoryAsync(materialId, organizationId);
             return Ok(history);
         }
-
 
     }
 }

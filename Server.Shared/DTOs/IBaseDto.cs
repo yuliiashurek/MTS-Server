@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server.Shared.DTOs
+﻿namespace Server.Shared.DTOs
 {
+    /// <summary>
+    /// Базовий інтерфейс для DTO, що містять ідентифікатор.
+    /// </summary>
     public interface IBaseDto
     {
+        /// <summary>
+        /// Унікальний ідентифікатор об'єкта.
+        /// </summary>
         Guid Id { get; set; }
     }
 }

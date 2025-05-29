@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Client
 {
-    public partial class MeasurementUnitForm : System.Windows.Window
+    public partial class MeasurementUnitForm : HandyControl.Controls.Window
     {
         public MeasurementUnit Unit { get; private set; }
 

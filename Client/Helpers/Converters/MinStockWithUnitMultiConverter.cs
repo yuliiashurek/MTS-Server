@@ -20,10 +20,11 @@ namespace Client.Helpers
 
             var unit = measurementUnits?.FirstOrDefault(u => u.Id == measurementUnitId);
 
+            var minStockText = Properties.Resources.MiMinStock;
             if (unit == null)
-                return $"Мінімальний запас: {minStock}";
+                return $"{minStockText}: {minStock}";
 
-            return $"Мінімальний запас: {minStock} {unit.ShortName} ({unit.FullName})";
+            return $"{minStockText}: {minStock} {unit.ShortName} ({unit.FullName})";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

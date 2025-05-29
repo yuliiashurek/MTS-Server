@@ -142,10 +142,10 @@
     <value>Days Left</value>
   </data>
   <data name="DashboardForecast7Days" xml:space="preserve">
-    <value>Forecast (week)</value>
+    <value>Average/week</value>
   </data>
   <data name="DashboardForecast7DaysIs" xml:space="preserve">
-    <value>Forecast (week):</value>
+    <value>Average/week:</value>
   </data>
   <data name="DashboardMaterialName" xml:space="preserve">
     <value>Material Name</value>
@@ -218,6 +218,24 @@
   </data>
   <data name="MaterialMovementsWriteOffByBarcode" xml:space="preserve">
     <value>⬇️ Write Off by Barcode</value>
+  </data>
+  <data name="MeasurementUnitsAbbreviation" xml:space="preserve">
+    <value>Abbreviation</value>
+  </data>
+  <data name="MeasurementUnitsUnit" xml:space="preserve">
+    <value>Unit of Measurement</value>
+  </data>
+  <data name="MiCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="MiMeasurementUnit" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="MiMinStock" xml:space="preserve">
+    <value>Minimal Stock</value>
+  </data>
+  <data name="MiName" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="MmBarcodeNumberFormat" xml:space="preserve">
     <value>Barcode: {0}</value>
@@ -304,7 +322,7 @@
     <value>Email: {0}</value>
   </data>
   <data name="MmSupplierNameFormat" xml:space="preserve">
-    <value>Material: {0}</value>
+    <value>Name: {0}</value>
   </data>
   <data name="MmSupplierPhoneFormat" xml:space="preserve">
     <value>Phone: {0}</value>
@@ -383,5 +401,17 @@
   </data>
   <data name="SuppliersControlLoadSuppliersError" xml:space="preserve">
     <value>Failed to load suppliers:</value>
+  </data>
+  <data name="MiSupplier" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="MiNotification" xml:space="preserve">
+    <value>Responsible People's Emails</value>
+  </data>
+  <data name="SupplierFormEdrpouLabel" xml:space="preserve">
+    <value>EDRPOU</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
 </root>
