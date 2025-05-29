@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace Client.Views
 {
-    public partial class MaterialItemForm : Window
+    public partial class MaterialItemForm : HandyControl.Controls.Window
     {
 
         public ObservableCollection<string> AvailableEmails { get; set; } = new();

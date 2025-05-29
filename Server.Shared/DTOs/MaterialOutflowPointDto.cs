@@ -1,7 +1,18 @@
-﻿namespace Server.Shared.DTOs;
-
-public class MaterialOutflowPointDto
+﻿namespace Server.Shared.DTOs
 {
-    public DateTime Date { get; set; }
-    public decimal OutQuantity { get; set; }
+    /// <summary>
+    /// DTO, що представляє обсяг списання матеріалу за конкретну дату.
+    /// </summary>
+    public class MaterialOutflowPointDto
+    {
+        /// <summary>
+        /// Дата списання матеріалу.
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Кількість списаного матеріалу на цю дату.
+        /// </summary>
+        public decimal OutQuantity { get; set; }
+    }
 }

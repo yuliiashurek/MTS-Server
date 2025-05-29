@@ -12,6 +12,7 @@ using Server.Data.Repositories.Implementations;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using Server.API.Helpers;
+using System.Reflection;
 
 
 
@@ -40,7 +41,15 @@ builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var apiXml = Path.Combine(AppContext.BaseDirectory, "Server.API.xml");
+    var sharedXml = Path.Combine(AppContext.BaseDirectory, "Server.Shared.xml");
+
+    options.IncludeXmlComments(apiXml, includeControllerXmlComments: true);
+    options.IncludeXmlComments(sharedXml); 
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpContextAccessor();
@@ -59,6 +68,8 @@ builder.Services.AddScoped<IBaseService<MaterialItemDto>, MaterialItemsService>(
 builder.Services.AddScoped<IBaseService<MaterialMovementDto>, MaterialMovementsService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IReportGenerationService, ReportGenerationService>();
+
 
 
 builder.Services.AddScoped<ISupplierService, SupplierService>();

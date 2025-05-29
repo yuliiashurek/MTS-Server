@@ -43,9 +43,55 @@ public class EmailService : IEmailService
     {
         var subject = $"[Увага] Низький запас матеріалу: {materialName}";
         var body = $@"
-        <p>Запас матеріалу <strong>{materialName}</strong> зменшився до <strong>{currentStock}</strong>, 
-        що дорівнює або менше мінімального запасу <strong>{minimumStock}</strong>.</p>
-        <p>Рекомендується перевірити залишки та здійснити замовлення за потреби.</p>";
+<html>
+<head>
+  <style>
+    body {{
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }}
+    .header {{
+      background-color: #1B4332;
+      color: white;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }}
+    .container {{
+      padding: 30px;
+    }}
+    .alert {{
+      background-color: #ffe5e5;
+      border: 1px solid #ffaaaa;
+      padding: 15px;
+      border-radius: 5px;
+      color: #a94442;
+    }}
+    .footer {{
+      margin-top: 30px;
+      font-size: 12px;
+      color: #777;
+    }}
+  </style>
+</head>
+<body>
+  <div class='header'>
+    ⚠ MTS – Облік матеріалів
+  </div>
+  <div class='container'>
+    <div class='alert'>
+      <p><strong>Увага!</strong> Запас матеріалу <strong>{materialName}</strong> зменшився до <strong>{currentStock}</strong> одиниць, що дорівнює або менше мінімального рівня <strong>{minimumStock}</strong>.</p>
+    </div>
+    <p>Рекомендується перевірити залишки та за потреби здійснити замовлення постачання.</p>
+    <div class='footer'>
+      Це автоматичне повідомлення. Будь ласка, не відповідайте на нього.
+    </div>
+  </div>
+</body>
+</html>";
+
 
         await SendAsync(toEmail, subject, body);
     }

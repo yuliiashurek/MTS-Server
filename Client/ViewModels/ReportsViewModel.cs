@@ -21,6 +21,7 @@ namespace Client.ViewModels
             _reportsApiService = new ReportsApiService();
             _supplierApiService = new SupplierApiService(App.SharedHttpClient);
             LoadSuppliersCommand.Execute(null);
+            LoadEmptyReportCommand.Execute(null);
         }
 
         [ObservableProperty]
@@ -70,7 +71,7 @@ namespace Client.ViewModels
         private async Task DownloadReportAsync()
         {
             if (SelectedSupplier == null) return;
-
+            await GenerateReportAsync();
             var pdfBytes = await _reportsApiService.GenerateAcceptanceActAsync(
                 SelectedSupplier.Id, DateFrom, DateTo, ContractNumber
             );
@@ -89,5 +90,16 @@ namespace Client.ViewModels
                 }
             }
         }
+
+        [RelayCommand]
+        private async Task LoadEmptyReportAsync()
+        {
+            var html = await _reportsApiService.GetEmptyAcceptanceActHtmlAsync();
+            if (!string.IsNullOrWhiteSpace(html))
+            {
+                HtmlPreview = html;
+            }
+        }
+
     }
 }

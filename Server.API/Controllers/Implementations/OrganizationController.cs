@@ -2,7 +2,7 @@
 using Server.Core.Interfaces;
 using Server.Shared.DTOs;
 
-namespace Server.API.Controllers
+namespace Server.API.Controllers.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -17,6 +17,11 @@ namespace Server.API.Controllers
             _userSession = userSession;
         }
 
+        /// <summary>
+        /// Отримання інформації про організацію поточного користувача.
+        /// </summary>
+        [ProducesResponseType(typeof(OrganizationInfoDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("me")]
         public async Task<ActionResult<OrganizationInfoDto>> GetMyOrganization()
         {
@@ -26,6 +31,12 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Оновлення інформації про організацію поточного користувача.
+        /// </summary>
+        /// <param name="dto">Оновлені дані організації.</param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("me")]
         public async Task<IActionResult> UpdateMyOrganization([FromBody] OrganizationInfoDto dto)
         {

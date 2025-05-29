@@ -87,5 +87,13 @@ namespace Client.Services.ApiServices
             var response = await _httpClient.PostAsJsonAsync("reports/generate-transfer-html-preview", request);
             return await response.Content.ReadAsStringAsync();
         }
+
+        public async Task<string?> GetEmptyAcceptanceActHtmlAsync()
+        {
+            var response = await _httpClient.GetAsync("reports/generate-empty-template");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
+
     }
 }

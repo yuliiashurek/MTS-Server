@@ -95,7 +95,7 @@
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormPhoneNumberLabel}" Binding="{Binding Phone}" Width="2*" />
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormEmailLabel}" Binding="{Binding Email}" Width="2*" />
                     <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormAddressLabel}" Binding="{Binding Address}" Width="2*" />
-                    <DataGridTextColumn Header="ЄДРПОУ" Binding="{Binding EdrpouCode}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.SupplierFormEdrpouLabel}" Binding="{Binding EdrpouCode}" Width="2*" />
 
                     <DataGridTemplateColumn Header=" " Width="60">
                         <DataGridTemplateColumn.CellTemplate>

@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Client
 {
-    public partial class SupplierForm : System.Windows.Window
+    public partial class SupplierForm : HandyControl.Controls.Window
     {
         public Supplier Supplier { get; private set; }
 

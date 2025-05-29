@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:properties="clr-namespace:Client.Properties"
              mc:Ignorable="d" Height="Auto" Width="Auto">
 
     <DockPanel Margin="20">
@@ -12,7 +13,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Додати"
+            <Button Content="{x:Static properties:Resources.PlusAdd}"
                     Width="120" Height="32"
                     HorizontalAlignment="Right"
                     Command="{Binding AddNewRowCommand}"
@@ -33,7 +34,7 @@
                   CellEditEnding="DataGrid_CellEditEnding"
                   PreparingCellForEdit="DataGrid_PreparingCellForEdit">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Назва"
+                <DataGridTextColumn Header="{x:Static properties:Resources.Name}"
                                     Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="*" />
                 <DataGridTemplateColumn Header=" " Width="60">

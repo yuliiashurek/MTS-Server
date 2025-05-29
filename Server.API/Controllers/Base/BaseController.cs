@@ -18,6 +18,9 @@ namespace Server.API.Controllers.Base
             _service = service;
         }
 
+        /// <summary>
+        /// Отримати список усіх елементів.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<TDto>>> GetAll()
         {
@@ -25,6 +28,10 @@ namespace Server.API.Controllers.Base
             return Ok(items);
         }
 
+        /// <summary>
+        /// Отримати елемент за його ID.
+        /// </summary>
+        /// <param name="id">Ідентифікатор елемента.</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<TDto>> GetById(Guid id)
         {
@@ -33,6 +40,10 @@ namespace Server.API.Controllers.Base
             return Ok(item);
         }
 
+        /// <summary>
+        /// Створити новий елемент і повернути його.
+        /// </summary>
+        /// <param name="dto">Дані нового елемента.</param>
         [HttpPost("create-and-return")]
         public async Task<ActionResult<TDto>> CreateAndReturn([FromBody] TDto dto)
         {
@@ -40,7 +51,10 @@ namespace Server.API.Controllers.Base
             return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
-
+        /// <summary>
+        /// Створити новий елемент.
+        /// </summary>
+        /// <param name="dto">Дані нового елемента.</param>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TDto dto)
         {
@@ -48,7 +62,11 @@ namespace Server.API.Controllers.Base
             return Ok();
         }
 
-
+        /// <summary>
+        /// Оновити існуючий елемент.
+        /// </summary>
+        /// <param name="id">ID елемента.</param>
+        /// <param name="dto">Оновлені дані.</param>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] TDto dto)
         {
@@ -59,6 +77,10 @@ namespace Server.API.Controllers.Base
             return Ok();
         }
 
+        /// <summary>
+        /// Видалити елемент за ID.
+        /// </summary>
+        /// <param name="id">ID елемента.</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

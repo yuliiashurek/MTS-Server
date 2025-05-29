@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Client.Helpers"
              xmlns:localClient="clr-namespace:Client"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+         xmlns:properties="clr-namespace:Client.Properties"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:MaterialItemsViewModel}">
 
@@ -28,8 +29,8 @@
     <DockPanel Margin="20">
         <!-- Верхні кнопки -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Content="➕ Додати" Command="{Binding AddMaterialItemCommand}" Width="120" Margin="0,0,10,0"/>
-            <Button Content="🔄 Оновити" Command="{Binding LoadMaterialItemsCommand}" Width="120"/>
+            <Button Content="{x:Static properties:Resources.PlusAdd}" Command="{Binding AddMaterialItemCommand}" Width="120" Margin="0,0,10,0"/>
+            <Button Content="{x:Static properties:Resources.RefreshWithIcon}" Command="{Binding LoadMaterialItemsCommand}" Width="120"/>
         </StackPanel>
 
         <Grid>
@@ -52,9 +53,9 @@
                       SelectionMode="Single"
                       Margin="0" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Назва матеріалу" Binding="{Binding Name}" Width="2*" />
-                    <DataGridTextColumn Header="Мінімальний запас" Binding="{Binding MinimumStock}" Width="1*" />
-                    <DataGridTemplateColumn Header="Одиниця вимірювання" Width="2*">
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MiName}" Binding="{Binding Name}" Width="2*" />
+                    <DataGridTextColumn Header="{x:Static properties:Resources.MiMinStock}" Binding="{Binding MinimumStock}" Width="1*" />
+                    <DataGridTemplateColumn Header="{x:Static properties:Resources.MiMeasurementUnit}" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock>
@@ -68,7 +69,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Категорія" Width="2*">
+                    <DataGridTemplateColumn Header="{x:Static properties:Resources.MiCategory}" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock>
@@ -82,7 +83,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Постачальник" Width="2*">
+                    <DataGridTemplateColumn Header="{x:Static properties:Resources.MiSupplier}" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock>
@@ -136,14 +137,14 @@
 
                     <!-- Ліва частина: Інформація про матеріал -->
                     <StackPanel Grid.Column="0" Margin="10,0,20,0" VerticalAlignment="Top">
-                        <TextBlock Text="Інформація про матеріал" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
-                        <TextBlock Text="{Binding SelectedMaterialItem.Name, StringFormat=Назва: {0}}" Margin="0,2" FontSize="13"/>
+                        <TextBlock Text="{x:Static properties:Resources.MmInfoAboutMaterial}" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                        <TextBlock Text="{Binding SelectedMaterialItem.Name, StringFormat={x:Static properties:Resources.MmMaterial}}" Margin="0,2" FontSize="13"/>
                         <TextBlock Margin="0,2" FontSize="13">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource MinStockWithUnitMultiConverter}">
                                     <Binding Path="SelectedMaterialItem.MinimumStock" />
                                     <Binding Path="SelectedMaterialItem.MeasurementUnitId" />
-                                    <Binding Path="DataContext.MeasurementUnits" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                    <Binding Path="DataContext.MeasurementUnits" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -159,14 +160,23 @@
 
                     <!-- Права частина: Постачальник -->
                     <StackPanel Grid.Column="1" Margin="20,0,10,0" VerticalAlignment="Top">
-                        <TextBlock Text="Постачальник" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                        <TextBlock Text="{x:Static properties:Resources.MiSupplier}" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
                         <Border Background="White" BorderBrush="#EEE" BorderThickness="1" CornerRadius="6" Padding="10">
                             <StackPanel>
-                                <TextBlock Text="{Binding SelectedSupplier.Name, StringFormat=Назва: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.ContactPerson, StringFormat=Контактна особа: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Phone, StringFormat=Телефон: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Email, StringFormat=Email: {0}}" Margin="0,2" FontSize="13"/>
-                                <TextBlock Text="{Binding SelectedSupplier.Address, StringFormat=Адреса: {0}}" Margin="0,2" FontSize="13"/>
+                                <TextBlock Text="{Binding SelectedSupplier.Name, StringFormat={x:Static properties:Resources.MmSupplierNameFormat}}" 
+Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.ContactPerson, StringFormat={x:Static properties:Resources.MmSupplierContactPersonFormat}}" 
+Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Phone, StringFormat={x:Static properties:Resources.MmSupplierPhoneFormat}}" 
+Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Email, StringFormat={x:Static properties:Resources.MmSupplierEmailFormat}}" 
+Margin="0,2" FontSize="13"/>
+
+                                <TextBlock Text="{Binding SelectedSupplier.Address, StringFormat={x:Static properties:Resources.MmSupplierAddressFormat}}" 
+Margin="0,2" FontSize="13"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>

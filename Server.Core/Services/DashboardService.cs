@@ -81,10 +81,15 @@ namespace Server.Core.Services
                     .Where(m => m.MovementType == (int)MovementType.In)
                     .Sum(m => m.Quantity);
 
+                var fourWeeksAgoMonday = DateTime.Today
+                    .StartOfWeek(DayOfWeek.Monday)
+                    .AddDays(-7 * 3); 
+
                 var outMovements = movements
-                    .Where(m => m.MovementType == (int)MovementType.Out)
+                    .Where(m =>
+                        m.MovementType == (int)MovementType.Out &&
+                        m.MovementDate.Date >= fourWeeksAgoMonday)
                     .OrderByDescending(m => m.MovementDate)
-                    .Take(7)
                     .ToList();
 
                 var outQty = movements
@@ -92,9 +97,26 @@ namespace Server.Core.Services
                     .Sum(m => m.Quantity);
 
                 var currentStock = inQty - outQty;
-                var avgDailyUsage = outMovements.Count == 0 ? 0 : outMovements.Sum(m => m.Quantity) / 7;
-                var forecast7Days = avgDailyUsage * 7;
-                var daysLeft = avgDailyUsage > 0 ? (int)Math.Floor(currentStock / avgDailyUsage) : 9999;
+
+                var startDate = DateTime.Today.StartOfWeek(DayOfWeek.Monday).AddDays(-7 * 3);
+                var endDate = DateTime.Today.StartOfWeek(DayOfWeek.Monday).AddDays(5);       
+
+                // обмежуємо діапазон
+                var relevantMovements = movements
+                    .Where(m => m.MovementType == (int)MovementType.Out &&
+                                m.MovementDate.Date >= startDate &&
+                                m.MovementDate.Date < endDate)
+                    .ToList();
+
+                // підраховуємо загальну кількість
+                var totalOut = relevantMovements.Sum(m => m.Quantity);
+
+                // 4 тижні × 5 робочих днів = 20 днів
+                var avgDailyUsage = totalOut / 20;
+                var forecast7Days = avgDailyUsage * 5;
+                var daysLeft = avgDailyUsage > 0 
+                    ? (int)Math.Floor(currentStock / avgDailyUsage) 
+                    : currentStock > 0 ? 9999 : 0;
 
                 var recommendation = currentStock < forecast7Days
                     ? "Замовити терміново"
@@ -145,4 +167,13 @@ namespace Server.Core.Services
 
 
     }
+    public static class DateExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime date, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (date.DayOfWeek - startOfWeek)) % 7;
+            return date.AddDays(-1 * diff).Date;
+        }
+    }
+
 }
