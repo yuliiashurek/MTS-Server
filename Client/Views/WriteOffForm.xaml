@@ -3,25 +3,51 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:hc="https://handyorg.github.io/handycontrol"
            Title="Списати матеріал"
-           Width="400" Height="200"
-           WindowStartupLocation="CenterScreen">
+           Width="500"
+           WindowStartupLocation="CenterScreen"
+           SizeToContent="Height"
+           ResizeMode="CanResize">
 
-    <StackPanel Margin="20">
-        <TextBlock Text="{Binding SourceMovement.BarcodeNumber, StringFormat=Barcode: {0}}" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,5">
-            <TextBlock Text="Кількість:" Width="100" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding Quantity}" Width="200"/>
+        <ScrollViewer Grid.Row="0">
+            <StackPanel>
+                <!-- Штрихкод -->
+                <TextBlock Text="{Binding SourceMovement.BarcodeNumber, StringFormat=Штрихкод: {0}}" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+
+                <!-- Кількість -->
+                <TextBlock Text="Кількість для списання:" />
+                <TextBox Text="{Binding Quantity}" Margin="0,0,0,10"/>
+
+                <!-- Дата списання -->
+                <TextBlock Text="Дата списання:" />
+                <DatePicker SelectedDate="{Binding MovementDate}" Margin="0,0,0,10"/>
+
+                <!-- Отримувач -->
+                <TextBlock Text="Отримувач (назва):" />
+                <TextBox x:Name="RecipientNameTextBox" TextChanged="RecipientNameTextBox_TextChanged" Margin="0,0,0,10"/>
+
+                <TextBlock Text="ЄДРПОУ:" />
+                <TextBox x:Name="RecipientEdrpouTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Адреса:" />
+                <TextBox x:Name="RecipientAddressTextBox" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Контактна особа:" />
+                <TextBox x:Name="RecipientContactTextBox" Margin="0,0,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Скасувати" Width="100" Margin="0,0,10,0" Click="Cancel_Click"/>
+            <Button Content="Списати" Width="100"
+                    Command="{Binding ConfirmWriteOffCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="0,5">
-            <TextBlock Text="Дата списання:" Width="100" VerticalAlignment="Center"/>
-            <DatePicker SelectedDate="{Binding MovementDate}" Width="200"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
-            <Button Content="Скасувати" Width="100" Margin="0,0,5,0" Click="Cancel_Click"/>
-            <Button Content="Списати" Width="100" Command="{Binding ConfirmWriteOffCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-        </StackPanel>
-    </StackPanel>
+    </Grid>
 </hc:Window>

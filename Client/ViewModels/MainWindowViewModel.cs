@@ -4,6 +4,8 @@ namespace Client
 {
     public partial class MainWindowViewModel : ObservableObject
     {
+        public event Action? RequestMaximizeWindow;
+
         [ObservableProperty]
         private object currentView;
 
@@ -14,7 +16,9 @@ namespace Client
 
         public void ShowMainView()
         {
+            RequestMaximizeWindow?.Invoke(); // повідомляє вікно
             CurrentView = new MainView();
         }
     }
+
 }

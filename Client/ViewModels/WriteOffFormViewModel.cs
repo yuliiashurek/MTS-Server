@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Client.Services.ApiServices;
+using Client.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HandyControl.Data;
 using Server.Shared.DTOs;
 using Server.Shared.Enums;
 using System;
@@ -31,12 +34,38 @@ namespace Client.ViewModels
         }
 
         [RelayCommand]
-        private void ConfirmWriteOff(Window window)
+        private async Task ConfirmWriteOff(Window window)
         {
+            if (window is not WriteOffForm form) return;
+
             if (Quantity <= 0 || Quantity > SourceMovement.Quantity)
             {
-                MessageBox.Show("Некоректна кількість для списання!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                HandyControl.Controls.Growl.Error("Некоректна кількість для списання!");
                 return;
+            }
+
+            if (string.IsNullOrWhiteSpace(form.RecipientNameTextBox.Text) ||
+                string.IsNullOrWhiteSpace(form.RecipientEdrpouTextBox.Text) ||
+                string.IsNullOrWhiteSpace(form.RecipientAddressTextBox.Text))
+            {
+                MessageBox.Show("Будь ласка, заповніть усі поля отримувача.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var recipientApi = new RecipientApiService();
+            Guid? recipientId = form.SelectedRecipientId;
+
+            if (!recipientId.HasValue)
+            {
+                var created = await recipientApi.CreateAsync(new RecipientDto
+                {
+                    Name = form.RecipientNameTextBox.Text,
+                    Edrpou = form.RecipientEdrpouTextBox.Text,
+                    Address = form.RecipientAddressTextBox.Text,
+                    ContactPerson = form.RecipientContactTextBox.Text
+                });
+
+                recipientId = created.Id;
             }
 
             var newWriteOff = new MaterialMovementDto
@@ -50,15 +79,16 @@ namespace Client.ViewModels
                 PricePerUnit = SourceMovement.PricePerUnit,
                 MovementDate = MovementDate,
                 ExpirationDate = SourceMovement.ExpirationDate,
-                BarcodeNumber = SourceMovement.BarcodeNumber
+                BarcodeNumber = SourceMovement.BarcodeNumber,
+                RecipientId = recipientId
             };
 
-            // додай в БД
             _parentViewModel.AddMaterialMovementWriteOff(newWriteOff);
 
             window.DialogResult = true;
             window.Close();
         }
+
     }
 
 }
