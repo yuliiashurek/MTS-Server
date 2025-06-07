@@ -9,6 +9,7 @@ namespace Client
             InitializeComponent();
         }
 
+
         public void ShowLoginView()
         {
             MainContentControl.Content = new LoginView();
@@ -16,7 +17,8 @@ namespace Client
 
         public void ShowMainView()
         {
-            MainContentControl.Content = new MainView();
+            MainContentControl.Content = new MainView(); 
+            WindowState = WindowState.Maximized;
         }
     }
 }

@@ -23,21 +23,21 @@
         </Grid.RowDefinitions>
 
         <!-- Фільтр -->
-        <TextBox Margin="0,0,0,10" Grid.Row="0" />
+        <TextBox Margin="0,0,0,10" Grid.Row="0" 
+         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
 
         <!-- Таблиця -->
-        <DataGrid ItemsSource="{Binding Materials}" 
-                  SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}"
-                  AutoGenerateColumns="False"
-                  Grid.Row="1"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  Margin="0,0,0,10"
-                  HeadersVisibility="Column"
-                  ColumnWidth="*"
-                  RowHeaderWidth="0">
+        <DataGrid ItemsSource="{Binding FilteredMaterials}" 
+          SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}"
+          AutoGenerateColumns="False"
+          Grid.Row="1"
+          IsReadOnly="True"
+          SelectionMode="Single"
+          Margin="0,0,0,10"
+          HeadersVisibility="Column"
+          ColumnWidth="*"
+          RowHeaderWidth="0">
 
-            <!-- Прибираємо сірі рамки з клітинок -->
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -49,7 +49,6 @@
                 </Style>
             </DataGrid.Resources>
 
-            <!-- Стиль рядків -->
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
@@ -62,23 +61,19 @@
                     <Setter Property="Margin" Value="0,2"/>
 
                     <Style.Triggers>
-                        <!-- Виділений рядок: лише жирний текст -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="Background" Value="Transparent"/>
                         </Trigger>
 
-                        <!-- Критичний запас: червоний -->
                         <DataTrigger Binding="{Binding IsCritical}" Value="True">
                             <Setter Property="Background" Value="#FFFFE5E5" />
                         </DataTrigger>
 
-                        <!-- Попередження: помаранчевий -->
                         <DataTrigger Binding="{Binding IsWarning}" Value="True">
                             <Setter Property="Background" Value="#FFFFF4E5" />
                         </DataTrigger>
 
-                        <!-- Нормальний запас: зелений -->
                         <DataTrigger Binding="{Binding IsNormal}" Value="True">
                             <Setter Property="Background" Value="#FFE7FBE7" />
                         </DataTrigger>
@@ -111,14 +106,6 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Warehouse" Binding="{Binding WarehouseName}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Padding" Value="10,4"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static properties:Resources.DashboardCurrentStock}" Binding="{Binding CurrentStock}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -137,6 +124,7 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+
 
         <!-- Графік і картки -->
         <Grid Grid.Row="2" Margin="0,20,0,0">

@@ -21,6 +21,8 @@ namespace Client
         public ObservableCollection<string> Languages { get; } = new() { "uk", "en" };
         public bool IsAdmin => SessionManager.Current?.Role == "Admin";
 
+        private string _currentSection = string.Empty;
+
 
         public MainViewViewModel()
         {
@@ -31,30 +33,37 @@ namespace Client
         private void LoadLastSectionOrDefault()
         {
             var section = Properties.Settings.Default.LastSection;
-            Properties.Settings.Default.LastSection = "";
-            Properties.Settings.Default.Save();
 
-            if (section == nameof(WarehousesCommand))
-                WarehousesCommand.Execute(null);
+            var commandMap = new Dictionary<string, IRelayCommand>
+            {
+                { nameof(SuppliersControl), SuppliersCommand },
+                { nameof(MyAccountControl), MyAccountCommand },
+                { nameof(UsersControl), UsersCommand },
+                { nameof(MeasurementUnitsControl), MeasurementUnitsCommand },
+                { "categories", CategoriesCommand },
+                { "warehouses", WarehousesCommand },
+                { nameof(MaterialItemsControl), MaterialItemsCommand },
+                { nameof(MaterialMovementsControl), MaterialMovementsCommand },
+                { nameof(AllDashboardsControl), DashboardsCommand },
+                { nameof(AllReportsControl), ReportingCommand },
+                { nameof(OrganizationInfoControl), OrganizationCommand }
+            };
+
+            if (!string.IsNullOrEmpty(section) && commandMap.TryGetValue(section, out var command))
+                command.Execute(null);
             else
-                SuppliersCommand.Execute(null);
+                DashboardsCommand.Execute(null);
         }
+
 
         partial void OnSelectedLanguageChanged(string value)
         {
             if (!string.IsNullOrWhiteSpace(value) && value != LanguageSettings.Language)
             {
-                Properties.Settings.Default.LastSection = GetCurrentSection();
+                Properties.Settings.Default.LastSection = _currentSection;
                 Properties.Settings.Default.Save();
                 LanguageSettings.ChangeCulture(value);
             }
-        }
-
-        private string GetCurrentSection()
-        {
-            if (CurrentContent is SuppliersControl)
-                return nameof(SuppliersCommand);
-            return "";
         }
 
         [RelayCommand]
@@ -62,6 +71,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewSuppliersMenu;
             CurrentContent = new SuppliersControl();
+            _currentSection = nameof(SuppliersControl);
         }
 
         [RelayCommand]
@@ -69,6 +79,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewMyAccountMenu;
             CurrentContent = new MyAccountControl();
+            _currentSection = nameof(MyAccountControl);
         }
 
         [RelayCommand]
@@ -76,6 +87,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewUsersMenu;
             CurrentContent = new UsersControl();
+            _currentSection = nameof(UsersControl);
         }
 
         [RelayCommand]
@@ -83,6 +95,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewMeasurementUnitsMenu;
             CurrentContent = new MeasurementUnitsControl();
+            _currentSection = nameof(MeasurementUnitsControl);
         }
 
         [RelayCommand]
@@ -90,6 +103,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewCategoriesMenu;
             CurrentContent = new NamedEntitiesControl { DataContext = new CategoriesViewModel() };
+            _currentSection = "categories";
         }
 
         [RelayCommand]
@@ -97,6 +111,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewWarehousesMenu;
             CurrentContent = new NamedEntitiesControl { DataContext = new WarehousesViewModel() };
+            _currentSection = "warehouses";
         }
 
         [RelayCommand]
@@ -104,6 +119,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewMaterialsMenu;
             CurrentContent = new MaterialItemsControl();
+            _currentSection = nameof(MaterialItemsControl);
         }
 
         [RelayCommand]
@@ -111,6 +127,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewMaterialMovements;
             CurrentContent = new MaterialMovementsControl();
+            _currentSection = nameof(MaterialMovementsControl);
         }
 
         [RelayCommand]
@@ -118,6 +135,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewDashboardsMenu;
             CurrentContent = new AllDashboardsControl();
+            _currentSection = nameof(AllDashboardsControl);
         }
 
         [RelayCommand]
@@ -125,6 +143,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewReportingMenu;
             CurrentContent = new AllReportsControl();
+            _currentSection = nameof(AllReportsControl);
         }
 
         [RelayCommand]
@@ -132,6 +151,7 @@ namespace Client
         {
             Title = Properties.Resources.MainViewOrganizationMenu;
             CurrentContent = new OrganizationInfoControl();
+            _currentSection = nameof(OrganizationInfoControl);
         }
     }
 }
