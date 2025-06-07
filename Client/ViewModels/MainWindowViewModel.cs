@@ -16,7 +16,7 @@ namespace Client
 
         public void ShowMainView()
         {
-            RequestMaximizeWindow?.Invoke(); // повідомляє вікно
+            RequestMaximizeWindow?.Invoke();
             CurrentView = new MainView();
         }
     }

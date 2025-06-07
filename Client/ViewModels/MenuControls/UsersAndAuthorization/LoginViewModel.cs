@@ -42,8 +42,6 @@ namespace Client
             {
                 Growl.Success("Організацію створено, щроб увійти підтвердіть пошту, створіть пароль і увійдіть");
             }
-
-            //await loginAsync(AdminEmail, AdminPassword);
         }
 
         private async Task loginAsync(string email, string password)

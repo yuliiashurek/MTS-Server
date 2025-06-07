@@ -33,7 +33,7 @@ namespace Client.Services
 
                 for (int i = 0; i < settings.Copies; i++)
                 {
-                    await writer.WriteAsync(zpl); // тут передаєш string, а не байти
+                    await writer.WriteAsync(zpl); 
                 }
 
             }

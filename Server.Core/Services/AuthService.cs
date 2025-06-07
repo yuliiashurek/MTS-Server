@@ -54,15 +54,6 @@ public class AuthService : IAuthService
             return null;
 
         var newAccessToken = _tokenService.GenerateAccessToken(user);
-        //var newRefreshToken = _tokenService.GenerateRefreshToken();
-
-        //user.RefreshToken = newRefreshToken;
-        //user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
-        //    int.Parse(_config["Jwt:RefreshTokenExpirationDays"]!));
-
-        //_unitOfWork.Users.Update(user);
-        // await _unitOfWork.SaveChangesAsync();
-
         return newAccessToken;
     }
 
@@ -74,15 +65,6 @@ public class AuthService : IAuthService
             Name = dto.OrganizationName,
             Users = new List<User>()
         };
-
-        //var admin = new User
-        //{
-        //    Id = Guid.NewGuid(),
-        //    Email = dto.AdminEmail,
-        //    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword),
-        //    Organization = organization,
-        //    Role = "Admin"
-        //};
 
         await _unitOfWork.Organizations.AddAsync(organization);
 
@@ -159,9 +141,7 @@ public class AuthService : IAuthService
 </body>
 </html>"
 );
-
-
-        //await _unitOfWork.Users.AddAsync(admin);
+        
         await _unitOfWork.SaveChangesAsync();
         return true;
     }

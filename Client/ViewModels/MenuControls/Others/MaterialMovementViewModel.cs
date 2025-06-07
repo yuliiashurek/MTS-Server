@@ -252,7 +252,6 @@ namespace Client.ViewModels
                 return;
             }
 
-            // мапінг через AutoMapper
             var sourceMovement = App.Mapper.Map<MaterialMovementDto>(movement);
 
             var writeOffVm = new WriteOffFormViewModel(sourceMovement, this);

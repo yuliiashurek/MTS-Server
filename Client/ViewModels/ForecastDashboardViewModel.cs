@@ -1,6 +1,4 @@
-﻿// ForecastDashboardViewModel.cs
-
-using Client.Helpers.Others;
+﻿using Client.Helpers.Others;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
@@ -78,8 +76,6 @@ namespace Client.ViewModels
         {
             var raw = await _dashboardApiService.GetMaterialOutflowHistoryAsync(materialId);
 
-            //if (!raw.Any()) return;
-
             var groupedDaily = raw
                 .GroupBy(x => x.Date.Date)
                 .ToDictionary(g => g.Key, g => (double)g.Sum(x => x.OutQuantity));
@@ -106,20 +102,20 @@ namespace Client.ViewModels
                 weeklyUsage.Add(usage);
             }
 
-            // --- 3 тижні факт ---
+            // 3 тижні факт
             for (int i = 0; i < 3; i++)
             {
                 actualValues.Add(weeklyUsage[i]);
                 forecastValues.Add(null);
             }
 
-            // --- поточний тиждень ---
+            // поточний тиждень
             var thisWeekFact = weeklyUsage[3];
             var thisWeekForecast = GetTrendForecast(weeklyUsage.Take(3).ToList());
             actualValues.Add(thisWeekFact);
             forecastValues.Add(thisWeekForecast);
 
-            // ⬇️ Отримуємо фактичне та прогнозоване значення для поточного тижня
+            // фактичне та прогнозоване значення для поточного тижня
             double fact = weeklyUsage[3];
             double forecast = GetTrendForecast(weeklyUsage.Take(3).ToList());
 
@@ -155,7 +151,7 @@ namespace Client.ViewModels
                 forecast * weightForecast + fact * weightFact,
                 2);
 
-            // --- прогноз на 2 наступні тижні, будуємо на базі фактів і вже збудованих прогнозів
+            // прогноз на 2 наступні тижні
             var baseForForecast = weeklyUsage.Take(3).ToList();
             baseForForecast.Add(weightedCurrentWeek);
 
@@ -169,35 +165,35 @@ namespace Client.ViewModels
             actualValues.Add(null);
             forecastValues.Add(next2);
 
-            // --- графік ---
+            // графік
             Series = new ISeries[]
             {
-        new ColumnSeries<double?>
-        {
-            Name = "Факт",
-            Values = actualValues.ToArray(),
-            Fill = new SolidColorPaint(SKColors.SteelBlue),
-            Stroke = null
-        },
-        new ColumnSeries<double?>
-        {
-            Name = "Прогноз",
-            Values = forecastValues.ToArray(),
-            Fill = new SolidColorPaint(SKColors.Gray.WithAlpha(180)),
-            Stroke = null
-        }
-            };
+                new ColumnSeries<double?>
+                {
+                    Name = "Факт",
+                    Values = actualValues.ToArray(),
+                    Fill = new SolidColorPaint(SKColors.SteelBlue),
+                    Stroke = null
+                },
+                new ColumnSeries<double?>
+                {
+                    Name = "Прогноз",
+                    Values = forecastValues.ToArray(),
+                    Fill = new SolidColorPaint(SKColors.Gray.WithAlpha(180)),
+                    Stroke = null
+                }
+                    };
 
-            XAxes = new Axis[]
-            {
-        new Axis
-        {
-            Labels = weeks.Select(w => $"{w.AddDays(2):dd.MM}").ToArray(), // середа (центр ПН–ПТ)
-            LabelsPaint = new SolidColorPaint(SKColors.Black),
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
-        }
-            };
-        }
+                XAxes = new Axis[]
+                {
+                    new Axis
+                    {
+                        Labels = weeks.Select(w => $"{w.AddDays(2):dd.MM}").ToArray(), // середа (центр ПН–ПТ)
+                        LabelsPaint = new SolidColorPaint(SKColors.Black),
+                        SeparatorsPaint = new SolidColorPaint(SKColors.LightGray)
+                    }
+                };
+            }
 
 
         private double GetTrendForecast(List<double> weeklyValues)
@@ -226,8 +222,6 @@ namespace Client.ViewModels
 
             return Math.Round(Math.Max(forecast, 0), 2);
         }
-
-
 
     }
 }

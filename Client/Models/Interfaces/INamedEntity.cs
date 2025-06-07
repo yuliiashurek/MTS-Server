@@ -11,6 +11,5 @@ namespace Client
         Guid Id { get; set; }
         string Name { get; set; }
         string? PreviousName { get; set; }
-        //bool IsPersisted { get; set; }
     }
 }
